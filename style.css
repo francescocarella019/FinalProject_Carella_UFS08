@@ -1,38 +1,46 @@
 /* ==========================================================================
-   STILI CUSTOM AGGIUNTIVI (Logica che non si adatta bene alle utility Tailwind)
+   GASTROLAB — Custom Styles
+   (Logica che non si adatta alle utility Tailwind + animazioni avanzate)
    ========================================================================== */
 
-/* Nascondere la scrollbar per i container orizzontali (Tabs e Filtri) */
-.hide-scrollbar {
-    scrollbar-width: none; /* Firefox */
+/* ── Hide Scrollbar ──────────────────────────────────────────────────────── */
+.hide-scrollbar { scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── Page Transitions ────────────────────────────────────────────────────── */
+.page-section {
+    animation: pageFadeIn 0.3s ease-out both;
 }
-.hide-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* * CLASSI DI STATO LOGICO 
- * Gestite da JS e definite qui per mantenere il JS pulito senza iniettare stringhe lunghissime 
- */
+/* ── Nav Link Active State ───────────────────────────────────────────────── */
+.nav-link.active {
+    color: #FF5A00;
+    background-color: #FFF5F0;
+}
 
-/* Stato Tab Attivo */
+/* ── Tab Active ──────────────────────────────────────────────────────────── */
 .tab-link.active {
     border-color: #FF5A00;
     background-color: #FFF5F0;
     color: #FF5A00;
-    box-shadow: 0 4px 12px rgba(255, 90, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(255, 90, 0, 0.10);
 }
 
-/* Spunta Verde completamento Step */
+/* ── Step Status Badge ───────────────────────────────────────────────────── */
 .step-status {
     position: absolute;
     top: -6px;
     right: -6px;
-    background-color: #10B981; /* Smeraldo Tailwind */
+    background-color: #10B981;
     color: white;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,39 +49,28 @@
     transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 2px solid white;
 }
-.step-status.completed {
-    transform: scale(1);
-}
+.step-status.completed { transform: scale(1); }
 
-/* Stato Bottone Filtro Attivo (Aria-pressed) */
+/* ── Filter Button Active ────────────────────────────────────────────────── */
 .filter-btn[aria-pressed="true"] {
-    background-color: #0F172A; /* Slate-900 */
+    background-color: #0F172A;
     border-color: #0F172A;
     color: white;
 }
 
-/* ==========================================================================
-   GEOMETRIA E ANIMAZIONI DELLA "LIVING BOWL"
-   ========================================================================== */
-
-/* Struttura fisica della ciotola */
+/* ── Bowl Structure ──────────────────────────────────────────────────────── */
 .bowl-outer {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     background: #E2E8F0;
     border: 6px solid #F8FAFC;
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.12), 0 4px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.12), 0 4px 20px rgba(0,0,0,0.06);
+    flex-shrink: 0;
 }
-
 @media (min-width: 1024px) {
-    .bowl-outer {
-        width: 240px;
-        height: 240px;
-        border-width: 12px;
-    }
+    .bowl-outer { width: 220px; height: 220px; border-width: 10px; }
 }
-
 .bowl-inner {
     width: 100%;
     height: 100%;
@@ -83,7 +80,7 @@
     overflow: hidden;
 }
 
-/* Chip Ingredienti che cadono nella ciotola */
+/* ── Living Chip (bowl ingredients) ─────────────────────────────────────── */
 .living-chip {
     position: absolute;
     width: 36px;
@@ -98,13 +95,146 @@
     animation: dropIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     transform-origin: center;
 }
-
 @keyframes dropIn {
-    0% { transform: scale(0) translateY(-50px) rotate(-20deg); opacity: 0; }
+    0%   { transform: scale(0) translateY(-40px) rotate(-20deg); opacity: 0; }
     100% { transform: scale(1) translateY(0) rotate(0); opacity: 1; }
 }
 
-/* Animazione Modale Checkout */
+/* ── Hero Background Blobs ───────────────────────────────────────────────── */
+.hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
+.blob-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,90,0,0.35) 0%, transparent 70%);
+    top: -200px; right: -100px;
+    animation: blobPulse 8s ease-in-out infinite alternate;
+}
+.blob-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,150,0,0.25) 0%, transparent 70%);
+    bottom: -100px; left: -80px;
+    animation: blobPulse 10s ease-in-out infinite alternate-reverse;
+}
+.blob-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,90,0,0.15) 0%, transparent 70%);
+    top: 50%; left: 40%;
+    animation: blobPulse 12s ease-in-out infinite alternate;
+}
+@keyframes blobPulse {
+    0%   { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.15) translate(20px, -20px); }
+}
+
+/* ── Hero Bowl (Home Page) ───────────────────────────────────────────────── */
+.hero-bowl-wrapper {
+    width: 260px;
+    height: 260px;
+}
+@media (min-width: 1024px) {
+    .hero-bowl-wrapper { width: 380px; height: 380px; }
+}
+.hero-bowl-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(255,90,0,0.2);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ringPulse 3s ease-in-out infinite;
+}
+.ring-1 { width: 110%; height: 110%; animation-delay: 0s; }
+.ring-2 { width: 130%; height: 130%; animation-delay: 1.5s; border-color: rgba(255,90,0,0.10); }
+@keyframes ringPulse {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.03); }
+}
+.hero-bowl-outer {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 8px solid rgba(255,90,0,0.3);
+    box-shadow: 0 0 60px rgba(255,90,0,0.25), inset 0 4px 20px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+.hero-bowl-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50%       { transform: translateY(-12px) rotate(5deg); }
+}
+.float-animation { animation: float 4s ease-in-out infinite; display: block; }
+
+/* ── Floating Chips Around Hero Bowl ────────────────────────────────────── */
+.floating-chip {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    animation: chipFloat 5s ease-in-out infinite;
+}
+.chip-a { top: 5%;  left: -5%;   animation-delay: 0s; }
+.chip-b { bottom: 10%; right: -5%; animation-delay: 1.2s; }
+.chip-c { top: 50%; left: -10%;  animation-delay: 2.4s; }
+.chip-d { top: 0%;  right: 5%;   animation-delay: 0.8s; }
+@keyframes chipFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%       { transform: translateY(-10px) scale(1.08); }
+}
+
+/* ── Card ingredient hover ───────────────────────────────────────────────── */
+.ingredient-card {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.ingredient-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* ── Checkout Modal Animation ────────────────────────────────────────────── */
 #checkout-overlay.active #checkout-modal {
     transform: scale(1);
+}
+
+/* ── Famous Poke Card ────────────────────────────────────────────────────── */
+.poke-preset-card {
+    transition: all 0.25s ease;
+}
+.poke-preset-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+
+/* ── About Stat Cards hover ──────────────────────────────────────────────── */
+.about-stat-card {
+    transition: transform 0.2s ease;
+}
+.about-stat-card:hover {
+    transform: translateY(-3px);
+}
+
+/* ── Step Cards animation ────────────────────────────────────────────────── */
+.step-card { transition: all 0.3s ease; }
+
+/* ── Mobile Menu Transition ──────────────────────────────────────────────── */
+#mobile-menu {
+    transition: all 0.25s ease;
 }
