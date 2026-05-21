@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GastroLab - Il Configuratore di Poke Bowl</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Rowdies:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        accent: ['Rowdies', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: '#FF5A00',
+                        brandHover: '#E05200',
+                        brandLight: '#FFF5F0',
+                    },
+                    boxShadow: {
+                        'delivery': '0 4px 20px rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased pb-[90px] lg:pb-0 overflow-x-hidden selection:bg-brand selection:text-white">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-slate-200 h-[70px] shadow-sm" aria-label="Navigazione principale">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 h-full flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl" aria-hidden="true">🥗</span>
+                <span class="font-accent text-2xl tracking-tight text-slate-900">GastroLab</span>
+            </div>
+            
+            <div class="flex items-center gap-3 lg:gap-6">
+                <div class="hidden md:flex gap-2" id="presets-container">
+                    </div>
+                <button type="button" id="cart-toggle-btn" class="relative bg-transparent border-none text-2xl cursor-pointer p-1 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand rounded-lg" aria-label="Apri carrello">
+                    🛒
+                    <span id="cart-badge" class="absolute -top-1 -right-2 bg-brand text-white text-[10px] font-bold px-2 py-[2px] rounded-full border-2 border-white">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="cart-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[998] opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
+    
+    <aside id="cart-drawer" class="fixed top-0 right-0 w-full max-w-md h-screen bg-slate-50 z-[999] flex flex-col shadow-2xl translate-x-full transition-transform duration-300 ease-in-out" aria-hidden="true">
+        <div class="p-5 bg-white border-b border-slate-200 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-slate-900">Il tuo Carrello</h2>
+            <button id="cart-close-btn" class="text-3xl text-slate-400 hover:text-brand transition-colors focus:outline-none" aria-label="Chiudi carrello">&times;</button>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 flex flex-col gap-4">
+            </div>
+        <div class="p-6 bg-white border-t border-slate-200">
+            <div class="flex justify-between items-center text-xl font-bold mb-4">
+                <span class="text-slate-800">Totale Ordine:</span>
+                <span id="cart-total-price" class="text-brand">0.00€</span>
+            </div>
+            <button type="button" id="checkout-btn" class="w-full bg-brand hover:bg-brandHover text-white font-bold py-4 rounded-2xl shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>Acquista Ora</button>
+        </div>
+    </aside>
+
+    <main class="flex flex-col lg:flex-row-reverse w-full max-w-7xl mx-auto p-4 lg:p-8 gap-8">
+        
+        <section class="lg:w-[400px] shrink-0 sticky top-[90px] z-40" aria-labelledby="live-bowl-heading">
+            <h2 id="live-bowl-heading" class="sr-only">Anteprima della tua Poke Bowl</h2>
+            
+            <div class="bg-white rounded-[24px] p-5 lg:p-8 shadow-delivery border border-slate-200 flex flex-row lg:flex-col items-center gap-6 relative overflow-hidden">
+                <div id="lottie-feedback-container" class="absolute inset-0 flex justify-center items-center z-30 pointer-events-none opacity-0 transition-opacity duration-200" aria-hidden="true"></div>
+                
+                <div class="shrink-0 relative bowl-outer">
+                    <div id="bowl-living-content" class="bowl-inner">
+                        <div id="empty-bowl-placeholder" class="h-full flex flex-col justify-center items-center text-center text-slate-400 text-xs font-semibold p-2">
+                            <span class="text-4xl opacity-40 mb-1 lg:mb-2">🥢</span>
+                            <p class="lg:text-sm">La tua ciotola è vuota.<br>Inizia a comporre!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 flex flex-col gap-2 lg:text-center lg:items-center">
+                    <p id="bowl-tags-preview" class="text-sm lg:text-base font-medium text-slate-700 leading-tight line-clamp-2 lg:line-clamp-none">Nessun ingrediente selezionato</p>
+                    <div class="flex gap-2">
+                        <span id="total-calories-badge" class="bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1 rounded-lg">0 kcal</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="flex-1" aria-labelledby="controls-heading">
+            <h2 id="controls-heading" class="sr-only">Selettore ingredienti</h2>
+
+            <div class="flex items-center gap-3 overflow-x-auto hide-scrollbar mb-6">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Filtra:</span>
+                <div class="flex gap-2">
+                    <button type="button" id="filter-vegan" class="filter-btn bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-semibold text-slate-700 whitespace-nowrap transition-colors focus:ring-2 focus:ring-brand" aria-pressed="false">🍃 Solo Vegan</button>
+                    <button type="button" id="filter-gf" class="filter-btn bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-semibold text-slate-700 whitespace-nowrap transition-colors focus:ring-2 focus:ring-brand" aria-pressed="false">🌾 Senza Glutine</button>
+                </div>
+            </div>
+
+            <nav class="flex gap-2 overflow-x-auto hide-scrollbar mb-4" aria-label="Categorie ingredienti">
+                <button type="button" class="tab-link flex-1 min-w-[100px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-sm font-bold text-slate-600 transition-all focus:outline-none focus:ring-2 focus:ring-brand relative" data-category="base" id="tab-base">
+                    <span class="text-xl">🍚</span> Base <span class="step-status" id="status-base"></span>
+                </button>
+                <button type="button" class="tab-link flex-1 min-w-[100px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-sm font-bold text-slate-600 transition-all focus:outline-none focus:ring-2 focus:ring-brand relative" data-category="protein" id="tab-protein">
+                    <span class="text-xl">🥩</span> Proteine <span class="step-status" id="status-protein"></span>
+                </button>
+                <button type="button" class="tab-link flex-1 min-w-[100px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-sm font-bold text-slate-600 transition-all focus:outline-none focus:ring-2 focus:ring-brand relative" data-category="topping" id="tab-topping">
+                    <span class="text-xl">🥑</span> Topping <span class="step-status" id="status-topping"></span>
+                </button>
+                <button type="button" class="tab-link flex-1 min-w-[100px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-sm font-bold text-slate-600 transition-all focus:outline-none focus:ring-2 focus:ring-brand relative" data-category="sauce" id="tab-sauce">
+                    <span class="text-xl">🍯</span> Salse <span class="step-status" id="status-sauce"></span>
+                </button>
+            </nav>
+
+            <div class="h-1.5 bg-slate-200 rounded-full mb-6 overflow-hidden" aria-hidden="true">
+                <div class="h-full bg-brand w-1/4 transition-all duration-500 ease-out" id="main-progress-bar"></div>
+            </div>
+
+            <div>
+                <div class="mb-4">
+                    <h3 id="category-instruction" class="text-lg font-bold text-slate-800">Caricamento istruzioni...</h3>
+                </div>
+                <div id="ingredients-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 w-full h-[85px] bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-[110] lg:static lg:shadow-none lg:border-t lg:mt-6 lg:h-auto lg:p-0">
+        <div class="max-w-7xl mx-auto h-full px-4 lg:px-8 flex justify-between items-center lg:py-6">
+            <div class="flex flex-col">
+                <span class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-wider">Prezzo Poke:</span>
+                <span id="current-bowl-price" class="text-2xl lg:text-3xl font-extrabold text-slate-900">0.00€</span>
+            </div>
+            <button type="button" id="main-action-btn" class="bg-brand hover:bg-brandHover text-white border-none py-3 px-6 lg:py-4 lg:px-8 rounded-xl lg:rounded-2xl font-bold text-sm lg:text-base shadow-lg transition-transform hover:-translate-y-0.5 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:transform-none">
+                Scegli la Base
+            </button>
+        </div>
+    </footer>
+
+    <div id="checkout-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[2000] flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-[90%] text-center shadow-2xl transform scale-90 transition-transform duration-300 ease-out" id="checkout-modal">
+            <div id="lottie-checkout-container" class="w-40 h-40 mx-auto mb-2"></div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">Ordine Inviato!</h3>
+            <p class="text-slate-600 text-sm mb-6">Chef Franco ha ricevuto il tuo ordine. La tua poke bowl è in preparazione.</p>
+            <button type="button" id="close-modal-btn" class="w-full bg-slate-900 hover:bg-brand text-white py-3 rounded-xl font-bold transition-colors">Torna alla Home</button>
+        </div>
+    </div>
+
+</body>
+</html>

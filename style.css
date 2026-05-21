@@ -1,0 +1,110 @@
+/* ==========================================================================
+   STILI CUSTOM AGGIUNTIVI (Logica che non si adatta bene alle utility Tailwind)
+   ========================================================================== */
+
+/* Nascondere la scrollbar per i container orizzontali (Tabs e Filtri) */
+.hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+/* * CLASSI DI STATO LOGICO 
+ * Gestite da JS e definite qui per mantenere il JS pulito senza iniettare stringhe lunghissime 
+ */
+
+/* Stato Tab Attivo */
+.tab-link.active {
+    border-color: #FF5A00;
+    background-color: #FFF5F0;
+    color: #FF5A00;
+    box-shadow: 0 4px 12px rgba(255, 90, 0, 0.08);
+}
+
+/* Spunta Verde completamento Step */
+.step-status {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: #10B981; /* Smeraldo Tailwind */
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    transform: scale(0);
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid white;
+}
+.step-status.completed {
+    transform: scale(1);
+}
+
+/* Stato Bottone Filtro Attivo (Aria-pressed) */
+.filter-btn[aria-pressed="true"] {
+    background-color: #0F172A; /* Slate-900 */
+    border-color: #0F172A;
+    color: white;
+}
+
+/* ==========================================================================
+   GEOMETRIA E ANIMAZIONI DELLA "LIVING BOWL"
+   ========================================================================== */
+
+/* Struttura fisica della ciotola */
+.bowl-outer {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #E2E8F0;
+    border: 6px solid #F8FAFC;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.12), 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+@media (min-width: 1024px) {
+    .bowl-outer {
+        width: 240px;
+        height: 240px;
+        border-width: 12px;
+    }
+}
+
+.bowl-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #F8FAFC;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+/* Chip Ingredienti che cadono nella ciotola */
+.living-chip {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    animation: dropIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transform-origin: center;
+}
+
+@keyframes dropIn {
+    0% { transform: scale(0) translateY(-50px) rotate(-20deg); opacity: 0; }
+    100% { transform: scale(1) translateY(0) rotate(0); opacity: 1; }
+}
+
+/* Animazione Modale Checkout */
+#checkout-overlay.active #checkout-modal {
+    transform: scale(1);
+}
