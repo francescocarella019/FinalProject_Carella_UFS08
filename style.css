@@ -1,28 +1,27 @@
 /* ==========================================================================
-   GASTROLAB — Custom Styles
-   (Logica che non si adatta alle utility Tailwind + animazioni avanzate)
+   GASTROLAB — Custom Styles v2
    ========================================================================== */
 
-/* ── Hide Scrollbar ──────────────────────────────────────────────────────── */
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
 .hide-scrollbar { scrollbar-width: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 
-/* ── Page Transitions ────────────────────────────────────────────────────── */
+/* ── Page fade-in transition ─────────────────────────────────────────────── */
 .page-section {
-    animation: pageFadeIn 0.3s ease-out both;
+    animation: pageFadeIn 0.28s ease-out both;
 }
 @keyframes pageFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Nav Link Active State ───────────────────────────────────────────────── */
+/* ── Active Nav Link ─────────────────────────────────────────────────────── */
 .nav-link.active {
     color: #FF5A00;
     background-color: #FFF5F0;
 }
 
-/* ── Tab Active ──────────────────────────────────────────────────────────── */
+/* ── Active Tab ──────────────────────────────────────────────────────────── */
 .tab-link.active {
     border-color: #FF5A00;
     background-color: #FFF5F0;
@@ -30,7 +29,7 @@
     box-shadow: 0 4px 12px rgba(255, 90, 0, 0.10);
 }
 
-/* ── Step Status Badge ───────────────────────────────────────────────────── */
+/* ── Step Status Checkmark Badge ─────────────────────────────────────────── */
 .step-status {
     position: absolute;
     top: -6px;
@@ -51,7 +50,7 @@
 }
 .step-status.completed { transform: scale(1); }
 
-/* ── Filter Button Active ────────────────────────────────────────────────── */
+/* ── Filter Button Active State ──────────────────────────────────────────── */
 .filter-btn[aria-pressed="true"] {
     background-color: #0F172A;
     border-color: #0F172A;
@@ -80,7 +79,7 @@
     overflow: hidden;
 }
 
-/* ── Living Chip (bowl ingredients) ─────────────────────────────────────── */
+/* ── Living Bowl Chips ───────────────────────────────────────────────────── */
 .living-chip {
     position: absolute;
     width: 36px;
@@ -115,13 +114,13 @@
 }
 .blob-2 {
     width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(255,150,0,0.25) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,150,0,0.22) 0%, transparent 70%);
     bottom: -100px; left: -80px;
     animation: blobPulse 10s ease-in-out infinite alternate-reverse;
 }
 .blob-3 {
     width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(255,90,0,0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,90,0,0.14) 0%, transparent 70%);
     top: 50%; left: 40%;
     animation: blobPulse 12s ease-in-out infinite alternate;
 }
@@ -132,8 +131,8 @@
 
 /* ── Hero Bowl (Home Page) ───────────────────────────────────────────────── */
 .hero-bowl-wrapper {
-    width: 260px;
-    height: 260px;
+    width: 260px; height: 260px;
+    position: relative;
 }
 @media (min-width: 1024px) {
     .hero-bowl-wrapper { width: 380px; height: 380px; }
@@ -149,12 +148,11 @@
 .ring-1 { width: 110%; height: 110%; animation-delay: 0s; }
 .ring-2 { width: 130%; height: 130%; animation-delay: 1.5s; border-color: rgba(255,90,0,0.10); }
 @keyframes ringPulse {
-    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-    50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.03); }
+    0%, 100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+    50%       { opacity: 1;   transform: translate(-50%,-50%) scale(1.03); }
 }
 .hero-bowl-outer {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     border-radius: 50%;
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     border: 8px solid rgba(255,90,0,0.3);
@@ -170,17 +168,19 @@
     align-items: center;
     justify-content: center;
 }
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
+.float-animation {
+    display: block;
+    animation: floatBowl 4s ease-in-out infinite;
+}
+@keyframes floatBowl {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
     50%       { transform: translateY(-12px) rotate(5deg); }
 }
-.float-animation { animation: float 4s ease-in-out infinite; display: block; }
 
-/* ── Floating Chips Around Hero Bowl ────────────────────────────────────── */
+/* ── Floating Emoji Chips (Hero) ─────────────────────────────────────────── */
 .floating-chip {
     position: absolute;
-    width: 48px;
-    height: 48px;
+    width: 48px; height: 48px;
     background: white;
     border-radius: 50%;
     display: flex;
@@ -190,51 +190,55 @@
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     animation: chipFloat 5s ease-in-out infinite;
 }
-.chip-a { top: 5%;  left: -5%;   animation-delay: 0s; }
+.chip-a { top: 5%;   left: -5%;  animation-delay: 0s; }
 .chip-b { bottom: 10%; right: -5%; animation-delay: 1.2s; }
-.chip-c { top: 50%; left: -10%;  animation-delay: 2.4s; }
-.chip-d { top: 0%;  right: 5%;   animation-delay: 0.8s; }
+.chip-c { top: 50%;  left: -10%; animation-delay: 2.4s; }
+.chip-d { top: 0%;   right: 5%;  animation-delay: 0.8s; }
 @keyframes chipFloat {
     0%, 100% { transform: translateY(0) scale(1); }
     50%       { transform: translateY(-10px) scale(1.08); }
 }
 
-/* ── Card ingredient hover ───────────────────────────────────────────────── */
-.ingredient-card {
+/* ── Ingredient Card hover ───────────────────────────────────────────────── */
+.ingredient-card { transition: all 0.2s ease; cursor: pointer; }
+.ingredient-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+/* ── Checkout Modal Scale ────────────────────────────────────────────────── */
+#checkout-overlay.active #checkout-modal { transform: scale(1); }
+
+/* ── Poke Preset Cards (Home) ────────────────────────────────────────────── */
+.poke-preset-card { transition: all 0.25s ease; }
+.poke-preset-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+
+/* ── About Stat Cards ────────────────────────────────────────────────────── */
+.about-stat-card { transition: transform 0.2s ease; }
+.about-stat-card:hover { transform: translateY(-3px); }
+
+/* ── Social Icon in Footer ───────────────────────────────────────────────── */
+.social-icon {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
-.ingredient-card:hover {
+.social-icon:hover {
+    background: #FF5A00;
+    border-color: #FF5A00;
+    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
-/* ── Checkout Modal Animation ────────────────────────────────────────────── */
-#checkout-overlay.active #checkout-modal {
-    transform: scale(1);
-}
+/* ── Dashboard KPI Cards ─────────────────────────────────────────────────── */
+.dashboard-kpi-card { transition: transform 0.2s ease; }
+.dashboard-kpi-card:hover { transform: translateY(-2px); }
 
-/* ── Famous Poke Card ────────────────────────────────────────────────────── */
-.poke-preset-card {
-    transition: all 0.25s ease;
-}
-.poke-preset-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.12);
-}
-
-/* ── About Stat Cards hover ──────────────────────────────────────────────── */
-.about-stat-card {
-    transition: transform 0.2s ease;
-}
-.about-stat-card:hover {
-    transform: translateY(-3px);
-}
-
-/* ── Step Cards animation ────────────────────────────────────────────────── */
+/* ── Step Cards ──────────────────────────────────────────────────────────── */
 .step-card { transition: all 0.3s ease; }
 
 /* ── Mobile Menu Transition ──────────────────────────────────────────────── */
-#mobile-menu {
-    transition: all 0.25s ease;
-}
+#mobile-menu { transition: all 0.25s ease; }
