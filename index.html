@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GastroLab — Il Configuratore di Poke Bowl</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Rowdies:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,18 +15,18 @@
                 extend: {
                     fontFamily: {
                         sans: ["Poppins", "sans-serif"],
-                        accent: ["Rowdies", "sans-serif"],
+                        accent: ["Poppins", "sans-serif"],
                     },
                     colors: {
-                        brand: "#FF5A00",
-                        brandHover: "#E05200",
-                        brandLight: "#FFF5F0",
-                        brandDark: "#CC4800",
+                        brand: "#000000",
+                        brandHover: "#27272a",
+                        brandLight: "#f4f4f5",
+                        brandDark: "#000000",
                     },
                     boxShadow: {
-                        "delivery": "0 4px 20px rgba(0,0,0,0.06)",
-                        "card": "0 8px 32px rgba(0,0,0,0.08)",
-                        "floating": "0 16px 48px rgba(255,90,0,0.18)",
+                        "delivery": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                        "card": "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
+                        "floating": "0 10px 30px -10px rgba(0,0,0,0.05)",
                     },
                 }
             }
@@ -34,458 +36,429 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script src="script.js" defer></script>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans antialiased overflow-x-hidden selection:bg-brand selection:text-white">
 
-    <!-- NAVBAR -->
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 h-[68px] shadow-sm" aria-label="Navigazione principale">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8 h-full flex justify-between items-center gap-4">
-            <a href="#" id="logo-link" class="flex items-center gap-2 shrink-0 focus:outline-none focus:ring-2 focus:ring-brand rounded-lg">
-                <span class="text-3xl" aria-hidden="true">&#x1F957;</span>
-                <span class="font-accent text-2xl tracking-tight text-slate-900">GastroLab</span>
+<body class="bg-white text-zinc-950 font-sans antialiased overflow-x-hidden selection:bg-zinc-950 selection:text-white">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-100 h-[64px] flex items-center"
+        aria-label="Navigazione principale">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full flex justify-between items-center">
+
+            <a href="#" id="logo-link" class="flex items-center gap-2 shrink-0 focus:outline-none">
+                <span class="text-xl tracking-widest font-light text-zinc-950 uppercase">Gastro<span
+                        class="font-bold">Lab</span></span>
             </a>
-            <div class="hidden md:flex items-center gap-1" role="navigation" aria-label="Menu principale">
-                <button data-page="home"         class="nav-link px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand hover:bg-brandLight transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand">Home</button>
-                <button data-page="configurator" class="nav-link px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand hover:bg-brandLight transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand">Configuratore</button>
-                <button data-page="about"        class="nav-link px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand hover:bg-brandLight transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand">Chi Siamo</button>
-                <button data-page="contact"      class="nav-link px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-brand hover:bg-brandLight transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand">Contatti</button>
+
+            <div class="hidden md:flex items-center gap-1" role="navigation">
+                <button data-page="home"
+                    class="nav-link px-4 py-1.5 rounded text-xs tracking-wider uppercase font-medium text-zinc-500 hover:text-zinc-950 transition-all duration-200">Home</button>
+                <button data-page="configurator"
+                    class="nav-link px-4 py-1.5 rounded text-xs tracking-wider uppercase font-medium text-zinc-500 hover:text-zinc-950 transition-all duration-200">Configuratore</button>
+                <button data-page="about"
+                    class="nav-link px-4 py-1.5 rounded text-xs tracking-wider uppercase font-medium text-zinc-500 hover:text-zinc-950 transition-all duration-200">Chi
+                    Siamo</button>
+                <button data-page="contact"
+                    class="nav-link px-4 py-1.5 rounded text-xs tracking-wider uppercase font-medium text-zinc-500 hover:text-zinc-950 transition-all duration-200">Contatti</button>
             </div>
-            <div class="flex items-center gap-2">
-                <div class="hidden lg:flex gap-2" id="presets-container"></div>
-                <button type="button" id="cart-toggle-btn" class="relative p-2 rounded-xl text-2xl cursor-pointer transition-all hover:scale-110 hover:bg-brandLight focus:outline-none focus:ring-2 focus:ring-brand" aria-label="Apri carrello">
-                    &#x1F6D2;
-                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-brand text-white text-[10px] font-bold min-w-[20px] h-5 px-1 flex items-center justify-center rounded-full border-2 border-white transition-all duration-200">0</span>
+
+            <div class="flex items-center gap-4">
+
+                <div class="hidden lg:flex items-center gap-1.5" id="presets-container">
+                    <button type="button" data-filter-tag="all"
+                        class="navbar-preset-btn active border border-zinc-200 text-[11px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Tutti</button>
+                    <button type="button" data-filter-tag="Bestseller"
+                        class="navbar-preset-btn border border-zinc-200 text-[11px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Bestseller</button>
+                    <button type="button" data-filter-tag="Vegan"
+                        class="navbar-preset-btn border border-zinc-200 text-[11px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Vegan</button>
+                    <button type="button" data-filter-tag="Piccante"
+                        class="navbar-preset-btn border border-zinc-200 text-[11px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Piccante</button>
+                </div>
+
+                <button type="button" id="cart-toggle-btn"
+                    class="relative p-1.5 rounded text-zinc-900 hover:bg-zinc-50 transition-all focus:outline-none"
+                    aria-label="Apri carrello">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    <span id="cart-badge"
+                        class="absolute -top-1 -right-1 bg-zinc-950 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full transition-all duration-200">0</span>
                 </button>
-                <button type="button" id="mobile-menu-btn" class="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-brand transition-colors" aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
-                    <svg id="hamburger-icon" class="w-6 h-6 transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
+
+                <button type="button" id="mobile-menu-btn"
+                    class="md:hidden p-1.5 text-zinc-900 hover:bg-zinc-50 focus:outline-none rounded transition-colors"
+                    aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                            d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-3 flex flex-col gap-1 shadow-lg" role="menu" aria-label="Menu mobile">
-            <button data-page="home"         class="nav-link mobile text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 hover:text-brand hover:bg-brandLight transition-all">Home</button>
-            <button data-page="configurator" class="nav-link mobile text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 hover:text-brand hover:bg-brandLight transition-all">Configuratore</button>
-            <button data-page="about"        class="nav-link mobile text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 hover:text-brand hover:bg-brandLight transition-all">Chi Siamo</button>
-            <button data-page="contact"      class="nav-link mobile text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 hover:text-brand hover:bg-brandLight transition-all">Contatti</button>
-            <div id="presets-container-mobile" class="flex flex-wrap gap-2 pt-2 border-t border-slate-100 mt-1"></div>
+
+        <div id="mobile-menu"
+            class="hidden absolute top-[64px] left-0 w-full bg-white border-b border-zinc-100 px-6 py-6 flex flex-col gap-2 shadow-xl z-50 transition-all duration-200"
+            role="menu" aria-label="Menu mobile">
+            <button data-page="home"
+                class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Home</button>
+            <button data-page="configurator"
+                class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Configuratore</button>
+            <button data-page="about"
+                class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Chi
+                Siamo</button>
+            <button data-page="contact"
+                class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Contatti</button>
+
+            <div class="pt-4">
+                <p class="text-[9px] uppercase tracking-widest text-zinc-400 mb-2 font-mono font-bold">Inizia da una
+                    ricetta:</p>
+                <div id="presets-container-mobile" class="flex flex-wrap gap-1.5"></div>
+            </div>
         </div>
     </nav>
-
-    <!-- CART BACKDROP + DRAWER -->
-    <div id="cart-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[998] opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true"></div>
-    <aside id="cart-drawer" class="fixed top-0 right-0 w-full max-w-md h-screen bg-slate-50 z-[999] flex flex-col shadow-2xl translate-x-full transition-transform duration-300 ease-in-out" aria-hidden="true" aria-label="Carrello">
-        <div class="p-5 bg-white border-b border-slate-200 flex justify-between items-center">
-            <h2 class="text-xl font-bold text-slate-900">Il tuo Carrello</h2>
-            <button id="cart-close-btn" class="w-9 h-9 flex items-center justify-center rounded-xl text-2xl text-slate-400 hover:text-brand hover:bg-brandLight transition-all focus:outline-none" aria-label="Chiudi carrello">&times;</button>
+    <div id="mobile-menu" class="hidden absolute top-[64px] left-0 w-full bg-white border-b border-zinc-100 px-6 py-6 flex flex-col gap-2 shadow-xl z-50 transition-all duration-200" role="menu" aria-label="Menu mobile">
+    <button data-page="home"         class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Home</button>
+    <button data-page="configurator" class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Configuratore</button>
+    <button data-page="about"        class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Chi Siamo</button>
+    <button data-page="contact"      class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Contatti</button>
+    
+    <div class="pt-4">
+        <p class="text-[9px] uppercase tracking-widest text-zinc-400 mb-2 font-mono font-bold">Filtra Ricette:</p>
+        <div id="presets-container-mobile" class="flex flex-wrap gap-1.5">
+            <button type="button" data-filter-tag="all" class="navbar-preset-btn active border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Tutti</button>
+            <button type="button" data-filter-tag="Bestseller" class="navbar-preset-btn border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Bestseller</button>
+            <button type="button" data-filter-tag="Vegan" class="navbar-preset-btn border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Vegan</button>
+            <button type="button" data-filter-tag="Piccante" class="navbar-preset-btn border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Piccante</button>
         </div>
-        <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 flex flex-col gap-4"></div>
-        <div class="p-6 bg-white border-t border-slate-200">
-            <div class="flex justify-between items-center text-xl font-bold mb-4">
-                <span class="text-slate-800">Totale Ordine:</span>
-                <span id="cart-total-price" class="text-brand">0.00&euro;</span>
+    </div>
+</div>
+    <div id="cart-backdrop"
+        class="fixed inset-0 bg-zinc-950/20 backdrop-blur-xs z-[998] opacity-0 pointer-events-none transition-opacity duration-300"
+        aria-hidden="true"></div>
+    <aside id="cart-drawer"
+        class="fixed top-0 right-0 w-full max-w-sm h-screen bg-white z-[999] flex flex-col border-l border-zinc-100 translate-x-full transition-transform duration-300 ease-in-out"
+        aria-hidden="true" aria-label="Carrello">
+        <div class="p-6 border-b border-zinc-100 flex justify-between items-center">
+            <h2 class="text-xs font-semibold tracking-wider uppercase text-zinc-950">Carrello Corrente</h2>
+            <button id="cart-close-btn"
+                class="text-zinc-400 hover:text-zinc-950 transition-all focus:outline-none text-xl"
+                aria-label="Chiudi carrello">&times;</button>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4 hide-scrollbar"></div>
+        <div class="p-6 border-t border-zinc-100 bg-zinc-50/50">
+            <div class="flex justify-between items-baseline mb-4">
+                <span class="text-xs text-zinc-500 uppercase tracking-wider font-medium">Totale Parziale</span>
+                <span id="cart-total-price" class="text-lg font-medium text-zinc-950">0.00&euro;</span>
             </div>
-            <button type="button" id="checkout-btn" class="w-full bg-brand hover:bg-brandHover text-white font-bold py-4 rounded-2xl shadow-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none" disabled>Acquista Ora</button>
+            <button type="button" id="checkout-btn"
+                class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-medium py-3.5 text-xs tracking-wider uppercase transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                disabled>Invia Ordine al Laboratorio</button>
         </div>
     </aside>
 
-    <!-- PAGE: HOME -->
     <div id="page-home" class="page-section">
-        <section class="relative overflow-hidden bg-slate-900 text-white min-h-[88vh] flex items-center">
-            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-                <div class="hero-blob blob-1"></div>
-                <div class="hero-blob blob-2"></div>
-                <div class="hero-blob blob-3"></div>
-            </div>
-            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full">
-                <div class="flex-1 text-center lg:text-left">
-                    <p class="inline-flex items-center gap-2 bg-brand/20 text-brand text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 border border-brand/30">&#x1F33F; Fresh &amp; Made to Order</p>
-                    <h1 class="font-accent text-5xl lg:text-7xl xl:text-8xl leading-none tracking-tight mb-6">La tua Poke,<br><span class="text-brand">Senza Regole.</span></h1>
-                    <p class="text-slate-300 text-lg lg:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 mb-10">Ingredienti selezionati ogni mattina, combinazioni infinite. Costruisci la tua bowl perfetta in meno di un minuto.</p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <button data-page="configurator" class="nav-link group bg-brand hover:bg-brandHover text-white font-bold py-4 px-8 rounded-2xl shadow-floating text-base transition-all duration-200 hover:-translate-y-1">Crea la tua Bowl <span class="inline-block ml-2 transition-transform group-hover:translate-x-1">&rarr;</span></button>
-                        <button data-page="about" class="nav-link bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold py-4 px-8 rounded-2xl text-base transition-all duration-200">Chi Siamo</button>
-                    </div>
-                    <div class="flex gap-8 justify-center lg:justify-start mt-12 pt-8 border-t border-white/10">
-                        <div class="text-center lg:text-left"><p class="font-accent text-3xl text-brand">50+</p><p class="text-slate-400 text-xs font-semibold uppercase tracking-wide mt-0.5">Ingredienti</p></div>
-                        <div class="text-center lg:text-left"><p class="font-accent text-3xl text-brand">&infin;</p><p class="text-slate-400 text-xs font-semibold uppercase tracking-wide mt-0.5">Combinazioni</p></div>
-                        <div class="text-center lg:text-left"><p class="font-accent text-3xl text-brand">15&apos;</p><p class="text-slate-400 text-xs font-semibold uppercase tracking-wide mt-0.5">Consegna</p></div>
+        <section class="relative bg-white min-h-[80vh] flex items-center border-b border-zinc-100 overflow-hidden">
+            <div
+                class="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-12 w-full">
+
+                <div class="flex-1 text-left space-y-6 max-w-xl">
+                    <p class="text-zinc-400 text-[10px] font-semibold uppercase tracking-[0.3em]">Fresh &amp; Minimalist
+                        Culinary Experience</p>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-zinc-950 leading-[1.1]">
+                        La tua Poke Bowl,<br><span
+                            class="font-bold underline decoration-1 underline-offset-[12px]">Senza Fronzoli.</span>
+                    </h1>
+                    <p class="text-zinc-500 text-sm md:text-base font-light leading-relaxed max-w-md">
+                        Materie prime pure selezionate giornalmente, accostamenti geometrici bilanciati. Configura la
+                        tua combinazione ideale attraverso un'interfaccia ad alto contrasto.
+                    </p>
+                    <div class="flex flex-row gap-3 pt-4">
+                        <button data-page="configurator"
+                            class="bg-zinc-950 hover:bg-zinc-900 text-white font-medium py-3.5 px-8 text-xs tracking-wider uppercase transition-all shadow-sm">Inizia
+                            a Comporre &rarr;</button>
+                        <button data-page="about"
+                            class="border border-zinc-200 hover:border-zinc-400 text-zinc-950 font-medium py-3.5 px-8 text-xs tracking-wider uppercase transition-all">Filosofia</button>
                     </div>
                 </div>
-                <div class="shrink-0 relative hero-bowl-wrapper">
-                    <div class="hero-bowl-ring ring-1"></div>
-                    <div class="hero-bowl-ring ring-2"></div>
-                    <div class="hero-bowl-outer"><div class="hero-bowl-inner"><span class="text-6xl lg:text-8xl float-animation">&#x1F957;</span></div></div>
-                    <div class="floating-chip chip-a">&#x1F41F;</div>
-                    <div class="floating-chip chip-b">&#x1F951;</div>
-                    <div class="floating-chip chip-c">&#x1F35A;</div>
-                    <div class="floating-chip chip-d">&#x1F33F;</div>
+
+                <div
+                    class="flex-1 w-full max-w-md lg:max-w-xl flex justify-center items-center relative aspect-square bg-white rounded-full">
+                    <div class="absolute inset-0 border border-zinc-100 rounded-full scale-110 pointer-events-none">
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop&q=80"
+                        alt="Premium Poke Bowl isolata su sfondo bianco"
+                        class="w-[85%] h-[85%] object-cover rounded-full shadow-floating mix-blend-multiply bg-white">
                 </div>
             </div>
         </section>
 
-        <section class="py-20 bg-white">
+        <section class="py-24 bg-white border-t border-zinc-100">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="text-center mb-14">
-                    <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Le nostre Ricette</p>
-                    <h2 class="font-accent text-4xl lg:text-5xl text-slate-900 mb-4">Le Poke pi&ugrave; Amate</h2>
-                    <p class="text-slate-500 max-w-lg mx-auto">Scelti dai nostri chef, perfetti come punto di partenza. Caricali nel configuratore e personalizzali a tuo piacimento.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="famous-poke-grid"></div>
-            </div>
-        </section>
 
-        <section class="py-20 bg-slate-50">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="text-center mb-14">
-                    <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Il Processo</p>
-                    <h2 class="font-accent text-4xl lg:text-5xl text-slate-900 mb-4">Come Funziona</h2>
+                <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div>
+                        <p class="text-zinc-400 text-[10px] font-mono font-bold uppercase tracking-[0.3em] mb-2">
+                            Signature Combinations</p>
+                        <h2 class="text-3xl font-light tracking-tight text-zinc-950">Le Ricette del Laboratorio</h2>
+                    </div>
+                    <p class="text-zinc-400 text-xs font-mono max-w-xs leading-relaxed">Accostamenti preconfigurati
+                        studiati dallo Chef per bilanciare i macro-nutrienti e preservare le proprietà organolettiche di
+                        ogni elemento.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="step-card group bg-white rounded-3xl p-8 border border-slate-200 hover:border-brand/40 hover:shadow-card transition-all duration-300 text-center">
-                        <div class="w-16 h-16 bg-brandLight rounded-2xl flex items-center justify-center text-3xl mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">&#x1F35A;</div>
-                        <span class="text-xs font-black text-brand uppercase tracking-widest">Step 01</span>
-                        <h3 class="font-bold text-slate-900 text-lg mt-2 mb-2">Scegli la Base</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed">Riso bianco, quinoa o mix. Il fondamento di ogni bowl perfetta.</p>
-                    </div>
-                    <div class="step-card group bg-white rounded-3xl p-8 border border-slate-200 hover:border-brand/40 hover:shadow-card transition-all duration-300 text-center">
-                        <div class="w-16 h-16 bg-brandLight rounded-2xl flex items-center justify-center text-3xl mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">&#x1F969;</div>
-                        <span class="text-xs font-black text-brand uppercase tracking-widest">Step 02</span>
-                        <h3 class="font-bold text-slate-900 text-lg mt-2 mb-2">Aggiungi Proteine</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed">Salmone, tonno, tofu. Freschi e di prima qualit&agrave; ogni giorno.</p>
-                    </div>
-                    <div class="step-card group bg-white rounded-3xl p-8 border border-slate-200 hover:border-brand/40 hover:shadow-card transition-all duration-300 text-center">
-                        <div class="w-16 h-16 bg-brandLight rounded-2xl flex items-center justify-center text-3xl mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">&#x1F951;</div>
-                        <span class="text-xs font-black text-brand uppercase tracking-widest">Step 03</span>
-                        <h3 class="font-bold text-slate-900 text-lg mt-2 mb-2">I Tuoi Topping</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed">Avocado, edamame, alghe. Colorati, nutrienti, deliziosi.</p>
-                    </div>
-                    <div class="step-card group bg-white rounded-3xl p-8 border border-slate-200 hover:border-brand/40 hover:shadow-card transition-all duration-300 text-center">
-                        <div class="w-16 h-16 bg-brandLight rounded-2xl flex items-center justify-center text-3xl mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">&#x1F36F;</div>
-                        <span class="text-xs font-black text-brand uppercase tracking-widest">Step 04</span>
-                        <h3 class="font-bold text-slate-900 text-lg mt-2 mb-2">Scegli la Salsa</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed">Il tocco finale che trasforma la tua bowl in un capolavoro.</p>
-                    </div>
+
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-4 mb-8 border-b border-zinc-100 hide-scrollbar"
+                    role="group" aria-label="Filtra ricette">
+                    <span
+                        class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 font-mono mr-3 shrink-0">Filtra
+                        Ricette:</span>
+                    <button type="button" data-filter-tag="all"
+                        class="preset-filter-btn active px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+                        Tutti
+                    </button>
+                    <button type="button" data-filter-tag="Bestseller"
+                        class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+                        Bestseller
+                    </button>
+                    <button type="button" data-filter-tag="Vegan"
+                        class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+                        Vegan
+                    </button>
+                    <button type="button" data-filter-tag="Piccante"
+                        class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+                        Piccante
+                    </button>
                 </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="famous-poke-grid"></div>
             </div>
         </section>
     </div>
 
-    <!-- PAGE: CONFIGURATOR -->
-    <div id="page-configurator" class="page-section hidden pb-[95px] lg:pb-0">
-        <main class="flex flex-col lg:flex-row-reverse w-full max-w-7xl mx-auto p-4 lg:p-8 gap-8">
-            <section class="lg:w-[380px] shrink-0 lg:sticky lg:top-[90px] lg:self-start z-40" aria-labelledby="live-bowl-heading">
-                <h2 id="live-bowl-heading" class="sr-only">Anteprima della tua Poke Bowl</h2>
-                <div class="bg-white rounded-[24px] p-5 lg:p-8 shadow-delivery border border-slate-200 flex flex-row lg:flex-col items-center gap-6 relative overflow-hidden">
-                    <div id="lottie-feedback-container" class="absolute inset-0 flex justify-center items-center z-30 pointer-events-none opacity-0 transition-opacity duration-200" aria-hidden="true"></div>
-                    <div class="shrink-0 relative bowl-outer">
-                        <div id="bowl-living-content" class="bowl-inner">
-                            <div id="empty-bowl-placeholder" class="h-full flex flex-col justify-center items-center text-center text-slate-400 text-xs font-semibold p-2">
-                                <span class="text-4xl opacity-40 mb-1 lg:mb-2">&#x1F962;</span>
-                                <p class="lg:text-sm">La tua ciotola &egrave; vuota.<br>Inizia a comporre!</p>
+    <div id="page-configurator" class="page-section hidden bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+                <div class="lg:col-span-7 space-y-8">
+
+                    <div class="flex flex-col gap-3 pb-4 border-b border-zinc-100">
+                        <div class="flex justify-between items-baseline">
+                            <span id="step-counter" class="text-zinc-400 font-mono text-xs tracking-widest">01 /
+                                04</span>
+                            <span id="category-instruction"
+                                class="text-xs font-semibold tracking-wide text-zinc-950 uppercase">Configurazione
+                                Iniziale</span>
+                        </div>
+                        <div class="w-full bg-zinc-100 h-[2px]">
+                            <div id="main-progress-bar" class="bg-zinc-950 h-full w-0 transition-all duration-300">
                             </div>
                         </div>
                     </div>
-                    <div class="flex-1 flex flex-col gap-2 lg:text-center lg:items-center">
-                        <p id="bowl-tags-preview" class="text-sm lg:text-base font-medium text-slate-700 leading-tight line-clamp-3">Nessun ingrediente selezionato</p>
-                        <div class="flex gap-2 flex-wrap">
-                            <span id="total-calories-badge" class="bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1 rounded-lg">0 kcal</span>
+
+                    <div class="flex gap-1 overflow-x-auto border-b border-zinc-100 pb-px hide-scrollbar"
+                        role="tablist">
+                        <button id="tab-base"
+                            class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Base
+                            <span id="status-base" class="step-status"></span></button>
+                        <button id="tab-protein"
+                            class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Proteine
+                            <span id="status-protein" class="step-status"></span></button>
+                        <button id="tab-topping"
+                            class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Topping
+                            <span id="status-topping" class="step-status"></span></button>
+                        <button id="tab-sauce"
+                            class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Salse
+                            <span id="status-sauce" class="step-status"></span></button>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 items-center pt-2">
+                        <span
+                            class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 mr-2 font-mono">Restrizioni:</span>
+                        <button type="button" id="filter-vegan"
+                            class="filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950"
+                            aria-pressed="false">Vegan</button>
+                        <button type="button" id="filter-gf"
+                            class="filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950"
+                            aria-pressed="false">Gluten Free</button>
+                    </div>
+
+                    <div id="ingredients-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4"></div>
+                </div>
+
+                <aside
+                    class="lg:col-span-5 lg:sticky lg:top-24 border border-zinc-200/60 p-6 bg-zinc-50/40 rounded-2xl space-y-6">
+                    <div class="flex justify-between items-center pb-4 border-b border-zinc-100">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-950 font-mono">Composizione
+                            Corrente</h3>
+                        <span id="total-calories-badge"
+                            class="text-[10px] font-mono font-bold bg-zinc-900 text-white px-2.5 py-0.5 rounded-md">0
+                            kcal</span>
+                    </div>
+
+                    <div
+                        class="flex justify-center items-center py-8 bg-white border border-dashed border-zinc-200 rounded-xl min-h-[220px]">
+                        <div id="empty-bowl-placeholder" class="flex flex-col items-center text-center p-4">
+                            <div class="bowl-outer mx-auto mb-3">
+                                <div class="bowl-inner"><span class="text-3xl opacity-20">🥣</span></div>
+                            </div>
+                            <p class="text-xs text-zinc-400 italic">Seleziona componenti per popolare l'anteprima</p>
+                        </div>
+
+                        <div id="bowl-living-content"
+                            class="hidden relative w-full flex flex-col items-center justify-center min-h-[180px]">
+                            <div class="bowl-outer">
+                                <div class="bowl-inner" id="bowl-tags-preview"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
 
-            <section class="flex-1 min-w-0" aria-labelledby="controls-heading">
-                <h2 id="controls-heading" class="sr-only">Selettore ingredienti</h2>
-                <div class="flex items-center gap-3 overflow-x-auto hide-scrollbar mb-6">
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wide shrink-0">Filtra:</span>
-                    <div class="flex gap-2 shrink-0">
-                        <button type="button" id="filter-vegan" class="filter-btn bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-semibold text-slate-700 whitespace-nowrap transition-all duration-200 focus:ring-2 focus:ring-brand" aria-pressed="false">&#x1F343; Solo Vegan</button>
-                        <button type="button" id="filter-gf"    class="filter-btn bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-semibold text-slate-700 whitespace-nowrap transition-all duration-200 focus:ring-2 focus:ring-brand" aria-pressed="false">&#x1F33E; Senza Glutine</button>
-                    </div>
-                </div>
-                <nav class="flex gap-2 overflow-x-auto hide-scrollbar mb-4" aria-label="Categorie ingredienti">
-                    <button type="button" id="tab-base"    data-category="base"    class="tab-link flex-1 min-w-[90px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-xs lg:text-sm font-bold text-slate-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand relative"><span class="text-xl">&#x1F35A;</span>Base<span class="step-status" id="status-base" aria-hidden="true"></span></button>
-                    <button type="button" id="tab-protein" data-category="protein" class="tab-link flex-1 min-w-[90px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-xs lg:text-sm font-bold text-slate-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand relative"><span class="text-xl">&#x1F969;</span>Proteine<span class="step-status" id="status-protein" aria-hidden="true"></span></button>
-                    <button type="button" id="tab-topping" data-category="topping" class="tab-link flex-1 min-w-[90px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-xs lg:text-sm font-bold text-slate-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand relative"><span class="text-xl">&#x1F951;</span>Topping<span class="step-status" id="status-topping" aria-hidden="true"></span></button>
-                    <button type="button" id="tab-sauce"   data-category="sauce"   class="tab-link flex-1 min-w-[90px] bg-white border border-slate-200 p-3 rounded-2xl flex flex-col items-center gap-1 text-xs lg:text-sm font-bold text-slate-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand relative"><span class="text-xl">&#x1F36F;</span>Salse<span class="step-status" id="status-sauce" aria-hidden="true"></span></button>
-                </nav>
-                <div class="h-2 bg-slate-200 rounded-full mb-6 overflow-hidden" aria-hidden="true">
-                    <div id="main-progress-bar" class="h-full bg-brand rounded-full transition-all duration-500 ease-out" style="width:25%"></div>
-                </div>
-                <div>
-                    <div class="mb-4 flex items-center justify-between">
-                        <h3 id="category-instruction" class="text-lg font-bold text-slate-800">Caricamento...</h3>
-                        <span id="step-counter" class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1.5 rounded-xl">1 / 4</span>
-                    </div>
-                    <div id="ingredients-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 transition-all duration-300"></div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="fixed bottom-0 left-0 w-full h-[85px] bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-[110] lg:static lg:shadow-none lg:border-t lg:mt-4 lg:h-auto lg:p-0">
-            <div class="max-w-7xl mx-auto h-full px-4 lg:px-8 flex justify-between items-center lg:py-6">
-                <div class="flex flex-col">
-                    <span class="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-wider">Prezzo Poke:</span>
-                    <span id="current-bowl-price" class="text-2xl lg:text-3xl font-extrabold text-slate-900">0.00&euro;</span>
-                </div>
-                <button type="button" id="main-action-btn" class="bg-brand hover:bg-brandHover text-white border-none py-3 px-6 lg:py-4 lg:px-8 rounded-xl lg:rounded-2xl font-bold text-sm lg:text-base shadow-lg transition-all duration-200 hover:-translate-y-0.5 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:transform-none">Scegli la Base</button>
-            </div>
-        </footer>
-    </div>
-
-    <!-- PAGE: CHI SIAMO -->
-    <div id="page-about" class="page-section hidden">
-        <section class="relative bg-slate-900 text-white py-28 overflow-hidden">
-            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-                <div class="hero-blob blob-1" style="opacity:0.4"></div>
-                <div class="hero-blob blob-2" style="opacity:0.3;width:500px;height:500px;top:auto;bottom:-150px;"></div>
-            </div>
-            <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center">
-                <p class="inline-flex items-center gap-2 bg-brand/20 text-brand text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 border border-brand/30">&#x1F9D1;&#x200D;&#x1F373; La nostra storia</p>
-                <h1 class="font-accent text-5xl lg:text-7xl text-white leading-none mb-6">Cucina con<br><span class="text-brand">Anima</span></h1>
-                <p class="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">GastroLab nasce da una passione semplice: cibo buono, fatto bene, senza compromessi. Dal 2019, costruiamo ogni bowl con ingredienti che tratterebbero i tuoi sensi come meritano.</p>
-            </div>
-        </section>
-        <section class="py-20 bg-white">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="group text-center p-10 rounded-3xl border border-slate-100 hover:border-brand/30 hover:shadow-card transition-all duration-300">
-                        <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">&#x1F331;</div>
-                        <h3 class="font-accent text-2xl text-slate-900 mb-3">Freschezza</h3>
-                        <p class="text-slate-500 leading-relaxed">Ogni ingrediente arriva la mattina stessa. Nessun compromesso sulla qualit&agrave;, mai.</p>
-                    </div>
-                    <div class="group text-center p-10 rounded-3xl border border-slate-100 hover:border-brand/30 hover:shadow-card transition-all duration-300">
-                        <div class="w-20 h-20 bg-gradient-to-br from-brand to-amber-500 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">&#x1F525;</div>
-                        <h3 class="font-accent text-2xl text-slate-900 mb-3">Passione</h3>
-                        <p class="text-slate-500 leading-relaxed">Chef Franco supervisiona ogni ricetta. La sua esperienza ventennale in ogni morso.</p>
-                    </div>
-                    <div class="group text-center p-10 rounded-3xl border border-slate-100 hover:border-brand/30 hover:shadow-card transition-all duration-300">
-                        <div class="w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">&#x2728;</div>
-                        <h3 class="font-accent text-2xl text-slate-900 mb-3">Creativit&agrave;</h3>
-                        <p class="text-slate-500 leading-relaxed">Il menu cambia ogni stagione. Sempre nuovi abbinamenti, sempre nuovi sapori da scoprire.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-20 bg-slate-50">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="flex flex-col lg:flex-row gap-16 items-center">
-                    <div class="flex-1">
-                        <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Dal 2019</p>
-                        <h2 class="font-accent text-4xl lg:text-5xl text-slate-900 mb-6 leading-tight">Nati da un sogno,<br>cresciuti con il gusto.</h2>
-                        <p class="text-slate-600 leading-relaxed mb-5">Tutto &egrave; iniziato in una piccola cucina a Milano. Chef Franco, reduce da anni di alta cucina giapponese, volle portare la filosofia della poke bowl nella quotidianit&agrave; italiana.</p>
-                        <p class="text-slate-600 leading-relaxed mb-8">Oggi GastroLab &egrave; un laboratorio gastronomico dove ogni cliente &egrave; protagonista. Il configuratore online non &egrave; solo tecnologia: &egrave; la promessa che nessuna bowl sar&agrave; mai uguale a un&#39;altra.</p>
-                        <button data-page="configurator" class="nav-link inline-flex items-center gap-2 bg-brand hover:bg-brandHover text-white font-bold py-4 px-8 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 shadow-floating">Crea la tua Bowl &rarr;</button>
-                    </div>
-                    <div class="flex-1 grid grid-cols-2 gap-4">
-                        <div class="about-stat-card bg-white rounded-3xl p-8 border border-slate-200 text-center shadow-delivery"><p class="font-accent text-5xl text-brand mb-2">2019</p><p class="text-slate-500 text-sm font-semibold">Anno di Fondazione</p></div>
-                        <div class="about-stat-card bg-slate-900 rounded-3xl p-8 border border-slate-800 text-center shadow-delivery"><p class="font-accent text-5xl text-brand mb-2">12k+</p><p class="text-slate-300 text-sm font-semibold">Bowl Consegnate</p></div>
-                        <div class="about-stat-card bg-brand rounded-3xl p-8 text-center shadow-floating"><p class="font-accent text-5xl text-white mb-2">4.9&#x2605;</p><p class="text-white/80 text-sm font-semibold">Valutazione Media</p></div>
-                        <div class="about-stat-card bg-white rounded-3xl p-8 border border-slate-200 text-center shadow-delivery"><p class="font-accent text-5xl text-brand mb-2">100%</p><p class="text-slate-500 text-sm font-semibold">Ingredienti Freschi</p></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- PAGE: CONTATTI -->
-    <div id="page-contact" class="page-section hidden">
-        <section class="bg-slate-900 text-white py-24 text-center relative overflow-hidden">
-            <div class="absolute inset-0 pointer-events-none" aria-hidden="true"><div class="hero-blob blob-1" style="opacity:0.35;width:400px;height:400px;"></div></div>
-            <div class="relative z-10 max-w-2xl mx-auto px-6">
-                <p class="inline-flex items-center gap-2 bg-brand/20 text-brand text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 border border-brand/30">&#x1F4EC; Scrivici</p>
-                <h1 class="font-accent text-5xl lg:text-6xl mb-4">Parliamo<br><span class="text-brand">insieme.</span></h1>
-                <p class="text-slate-300 text-lg">Domande, feedback o solo voglia di una poke &mdash; siamo qui.</p>
-            </div>
-        </section>
-        <section class="py-20 bg-white">
-            <div class="max-w-6xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-200">
-                    <h2 class="font-bold text-2xl text-slate-900 mb-6">Invia un Messaggio</h2>
-                    <div class="flex flex-col gap-5">
-                        <div><label class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2 block" for="contact-name">Nome Completo</label><input type="text" id="contact-name" placeholder="Mario Rossi" class="w-full bg-white border-2 border-slate-200 focus:border-brand rounded-2xl px-4 py-3.5 text-slate-900 placeholder-slate-400 font-medium transition-all duration-200 outline-none focus:ring-4 focus:ring-brand/10"/></div>
-                        <div><label class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2 block" for="contact-email">Email</label><input type="email" id="contact-email" placeholder="mario@email.it" class="w-full bg-white border-2 border-slate-200 focus:border-brand rounded-2xl px-4 py-3.5 text-slate-900 placeholder-slate-400 font-medium transition-all duration-200 outline-none focus:ring-4 focus:ring-brand/10"/></div>
-                        <div><label class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2 block" for="contact-subject">Oggetto</label>
-                            <select id="contact-subject" class="w-full bg-white border-2 border-slate-200 focus:border-brand rounded-2xl px-4 py-3.5 text-slate-900 font-medium transition-all duration-200 outline-none focus:ring-4 focus:ring-brand/10 appearance-none">
-                                <option value="">Seleziona un argomento...</option>
-                                <option>Domanda su un ordine</option><option>Segnalazione allergeni</option><option>Collaborazione</option><option>Feedback e suggerimenti</option><option>Altro</option>
-                            </select>
+                    <div class="pt-4 border-t border-zinc-100 space-y-4">
+                        <div class="flex justify-between items-baseline">
+                            <span class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Configurazione
+                                Attuale</span>
+                            <span id="current-bowl-price" class="text-2xl font-bold text-zinc-950">0.00&euro;</span>
                         </div>
-                        <div><label class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2 block" for="contact-msg">Messaggio</label><textarea id="contact-msg" rows="5" placeholder="Scrivi il tuo messaggio..." class="w-full bg-white border-2 border-slate-200 focus:border-brand rounded-2xl px-4 py-3.5 text-slate-900 placeholder-slate-400 font-medium transition-all duration-200 outline-none focus:ring-4 focus:ring-brand/10 resize-none leading-relaxed"></textarea></div>
-                        <button type="button" id="contact-submit-btn" class="w-full bg-brand hover:bg-brandHover text-white font-bold py-4 rounded-2xl shadow-floating transition-all duration-200 hover:-translate-y-0.5">Invia Messaggio &#x2709;&#xFE0F;</button>
-                        <p id="contact-success-msg" class="hidden text-center text-emerald-600 font-semibold text-sm bg-emerald-50 border border-emerald-200 rounded-xl py-3">&#x2705; Messaggio inviato! Ti risponderemo entro 24 ore.</p>
+
+                        <div id="lottie-feedback-container"
+                            class="w-12 h-12 mx-auto hidden transition-opacity duration-300 opacity-0"></div>
+
+                        <button type="button" id="main-action-btn"
+                            class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-medium py-3.5 text-xs tracking-wider uppercase transition-all duration-200 rounded-xl shadow-sm disabled:opacity-30">
+                            Completa i passaggi obbligatori
+                        </button>
                     </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-about" class="page-section hidden bg-white">
+        <section class="max-w-3xl mx-auto px-6 py-24 text-center space-y-6">
+            <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.3em] font-mono">Philosophy</p>
+            <h2 class="text-4xl font-light tracking-tight text-zinc-950">L'Estetica della Purezza Alimentare</h2>
+            <p class="text-zinc-500 text-sm md:text-base leading-relaxed font-light">
+                GastroLab nasce come risposta all'eccesso visivo e culinario. Eliminiamo il superfluo per concentrarci
+                sulla perfezione della materia prima geometricamente tagliata e bilanciata, servita all'interno di
+                un'esperienza digitale priva di ostacoli.
+            </p>
+            <div class="w-8 h-px bg-zinc-300 mx-auto mt-8"></div>
+            <p class="text-zinc-400 text-xs font-mono tracking-widest italic">Curated by GastroLab Chef</p>
+        </section>
+    </div>
+
+    <div id="page-contact" class="page-section hidden bg-white">
+        <section class="max-w-md mx-auto px-6 py-24">
+            <div class="mb-10 text-center">
+                <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.25em] font-mono mb-2">Inquiry Line
+                </p>
+                <h2 class="text-3xl font-light tracking-tight text-zinc-950">Richiedi Informazioni</h2>
+            </div>
+            <form class="space-y-5" onsubmit="event.preventDefault();">
+                <div>
+                    <label
+                        class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Nominativo</label>
+                    <input type="text"
+                        class="w-full border border-zinc-200 p-3 text-xs focus:border-zinc-950 focus:outline-none rounded-xl transition-colors bg-zinc-50/30"
+                        placeholder="Es. Alessandro Rossi" required>
                 </div>
-                <div class="flex flex-col gap-6">
-                    <div class="bg-slate-900 text-white rounded-3xl p-8">
-                        <h3 class="font-bold text-lg mb-5 flex items-center gap-2">&#x1F550; Orari di Apertura</h3>
-                        <div class="flex flex-col gap-3 text-sm">
-                            <div class="flex justify-between items-center border-b border-white/10 pb-3"><span class="font-semibold text-slate-300">Luned&igrave; &ndash; Venerd&igrave;</span><span class="font-bold text-brand">11:00 &ndash; 22:00</span></div>
-                            <div class="flex justify-between items-center border-b border-white/10 pb-3"><span class="font-semibold text-slate-300">Sabato</span><span class="font-bold text-brand">11:00 &ndash; 23:00</span></div>
-                            <div class="flex justify-between items-center"><span class="font-semibold text-slate-300">Domenica</span><span class="font-semibold text-slate-400">Chiuso</span></div>
-                        </div>
-                    </div>
-                    <div class="bg-brandLight border border-brand/20 rounded-3xl p-8">
-                        <h3 class="font-bold text-lg text-slate-900 mb-5 flex items-center gap-2">&#x1F6F5; Informazioni Spedizione</h3>
-                        <ul class="flex flex-col gap-3 text-sm">
-                            <li class="flex items-center gap-3 text-slate-700"><span class="text-brand font-bold">&rarr;</span> Consegna in <strong>15-25 minuti</strong> entro 5km</li>
-                            <li class="flex items-center gap-3 text-slate-700"><span class="text-brand font-bold">&rarr;</span> Spedizione gratuita per ordini <strong>sopra 20&euro;</strong></li>
-                            <li class="flex items-center gap-3 text-slate-700"><span class="text-brand font-bold">&rarr;</span> Packaging <strong>100% riciclabile</strong></li>
-                            <li class="flex items-center gap-3 text-slate-700"><span class="text-brand font-bold">&rarr;</span> Ritiro in sede sempre disponibile</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white rounded-3xl p-8 border border-slate-200">
-                        <h3 class="font-bold text-lg text-slate-900 mb-4 flex items-center gap-2">&#x1F4CD; Dove Siamo</h3>
-                        <p class="text-slate-600 font-medium mb-1">Via Tortona, 42</p>
-                        <p class="text-slate-500 text-sm">20144 Milano MI</p>
-                        <p class="text-slate-500 text-sm mt-3">&#x1F4DE; <a href="tel:+390212345678" class="hover:text-brand transition-colors">+39 02 1234 5678</a></p>
-                        <p class="text-slate-500 text-sm">&#x2709;&#xFE0F; <a href="mailto:ciao@gastrolab.it" class="hover:text-brand transition-colors">ciao@gastrolab.it</a></p>
-                    </div>
+                <div>
+                    <label
+                        class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Indirizzo
+                        Email</label>
+                    <input type="email"
+                        class="w-full border border-zinc-200 p-3 text-xs focus:border-zinc-950 focus:outline-none rounded-xl transition-colors bg-zinc-50/30"
+                        placeholder="alessandro@esempio.com" required>
                 </div>
+                <div>
+                    <label
+                        class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Dettaglio
+                        Richiesta</label>
+                    <textarea
+                        class="w-full border border-zinc-200 p-3 text-xs focus:border-zinc-950 focus:outline-none rounded-xl transition-colors bg-zinc-50/30 h-28 resize-none"
+                        placeholder="Descrivi le tue esigenze al nostro staff..." required></textarea>
+                </div>
+                <button type="button" id="contact-submit-btn"
+                    class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-medium py-3.5 text-xs tracking-wider uppercase transition-all rounded-xl shadow-sm">Invia
+                    Messaggio Sicuro</button>
+                <p id="contact-success-msg" class="hidden text-xs text-center text-zinc-500 font-mono mt-3">✓ Log:
+                    Messaggio archiviato e inoltrato con successo.</p>
+            </form>
+        </section>
+    </div>
+
+    <div id="page-dashboard" class="page-section hidden bg-white">
+        <section class="max-w-5xl mx-auto px-6 py-16">
+            <div
+                class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-6 border-b border-zinc-100 mb-10">
+                <div>
+                    <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.25em] font-mono">Backoffice
+                        Administration</p>
+                    <h2 class="text-2xl font-bold tracking-tight text-zinc-950">GastroLab Core Analytics Engine</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="orders-count-badge"
+                        class="text-xs font-mono bg-zinc-100 text-zinc-600 px-3 py-1 rounded-lg">0 ordini</span>
+                    <button id="clear-history-btn"
+                        class="border border-zinc-200 hover:border-zinc-950 text-zinc-950 text-xs font-medium px-4 py-1.5 rounded-xl transition-colors">Azzera
+                        Database</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+                <div class="border border-zinc-100 p-6 rounded-2xl bg-zinc-50/30">
+                    <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-wider font-mono">Fatturato Lordo
+                    </p>
+                    <p id="kpi-revenue" class="text-3xl font-light text-zinc-950 mt-2 font-mono">0.00&trade;</p>
+                </div>
+                <div class="border border-zinc-100 p-6 rounded-2xl bg-zinc-50/30">
+                    <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-wider font-mono">Totale Bowl Chiuse
+                    </p>
+                    <p id="kpi-bowls" class="text-3xl font-light text-zinc-950 mt-2 font-mono">0</p>
+                </div>
+                <div class="border border-zinc-100 p-6 rounded-2xl bg-zinc-50/30">
+                    <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-wider font-mono">Transazioni
+                        Ricevute</p>
+                    <p id="kpi-orders" class="text-3xl font-light text-zinc-950 mt-2 font-mono">0</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400 font-mono mb-4">Registro Operazioni
+                    Real-Time</h3>
+                <div id="dashboard-orders-list" class="flex flex-col gap-4"></div>
             </div>
         </section>
     </div>
 
-    <!-- PAGE: SECRET DASHBOARD -->
-    <div id="page-dashboard" class="page-section hidden">
-        <section class="relative bg-slate-950 text-white py-16 overflow-hidden">
-            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-                <div class="hero-blob blob-1" style="opacity:0.22;background:radial-gradient(circle,rgba(16,185,129,0.5) 0%,transparent 70%);"></div>
-                <div class="hero-blob blob-2" style="opacity:0.18;background:radial-gradient(circle,rgba(255,90,0,0.4) 0%,transparent 70%);bottom:-100px;top:auto;"></div>
-            </div>
-            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div>
-                        <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
-                            <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse inline-block"></span>
-                            Pannello Amministratore
-                        </p>
-                        <h1 class="font-accent text-4xl lg:text-5xl text-white">Dashboard Ordini</h1>
-                        <p class="text-slate-400 mt-2 text-sm">Storico completo delle vendite &mdash; GastroLab</p>
-                    </div>
-                    <div class="flex gap-3 flex-wrap">
-                        <button data-page="home" class="nav-link bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold py-2.5 px-5 rounded-xl text-sm transition-all duration-200">&larr; Home</button>
-                        <button id="clear-history-btn" class="bg-red-500/20 hover:bg-red-500/40 text-red-400 border border-red-500/30 font-semibold py-2.5 px-5 rounded-xl text-sm transition-all duration-200">&#x1F5D1; Svuota Storico</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="bg-slate-950 pb-10 px-6 lg:px-8">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="dashboard-kpi-card bg-gradient-to-br from-slate-900 to-slate-800 border border-emerald-500/20 rounded-2xl p-6 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full -translate-y-6 translate-x-6 blur-xl"></div>
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">&#x1F4B0; Fatturato Totale</p>
-                    <p id="kpi-revenue" class="font-accent text-4xl text-emerald-400 mb-1">0.00&euro;</p>
-                    <p class="text-slate-500 text-xs">lordo, IVA inclusa</p>
-                </div>
-                <div class="dashboard-kpi-card bg-gradient-to-br from-slate-900 to-slate-800 border border-brand/20 rounded-2xl p-6 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-brand/10 rounded-full -translate-y-6 translate-x-6 blur-xl"></div>
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">&#x1F957; Poke Vendute</p>
-                    <p id="kpi-bowls" class="font-accent text-4xl text-brand mb-1">0</p>
-                    <p class="text-slate-500 text-xs">bowl totali consegnate</p>
-                </div>
-                <div class="dashboard-kpi-card bg-gradient-to-br from-slate-900 to-slate-800 border border-violet-500/20 rounded-2xl p-6 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-violet-500/10 rounded-full -translate-y-6 translate-x-6 blur-xl"></div>
-                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">&#x1F4E6; Ordini Completati</p>
-                    <p id="kpi-orders" class="font-accent text-4xl text-violet-400 mb-1">0</p>
-                    <p class="text-slate-500 text-xs">transazioni registrate</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="bg-slate-50 min-h-[60vh] py-12 px-6 lg:px-8">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="font-bold text-xl text-slate-800 mb-6 flex items-center gap-2">
-                    &#x1F4CB; Cronologia Ordini
-                    <span id="orders-count-badge" class="bg-slate-200 text-slate-600 text-xs font-black px-3 py-1 rounded-full">0 ordini</span>
-                </h2>
-                <div id="dashboard-orders-list" class="flex flex-col gap-5">
-                    <div id="dashboard-empty-state" class="text-center py-24 text-slate-400">
-                        <div class="text-7xl mb-5 opacity-30">&#x1F4ED;</div>
-                        <p class="font-bold text-lg text-slate-500">Nessun ordine ancora.</p>
-                        <p class="text-sm mt-2">Completa il tuo primo checkout per vedere i dati qui.</p>
-                        <button data-page="configurator" class="nav-link mt-6 inline-flex items-center gap-2 bg-brand text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-floating text-sm">Crea la prima Bowl &rarr;</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- GLOBAL FOOTER -->
-    <footer class="bg-slate-900 text-slate-400 pt-16 pb-8" id="global-footer">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-                <div class="lg:col-span-1">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-3xl">&#x1F957;</span>
-                        <span class="font-accent text-2xl text-white tracking-tight">GastroLab</span>
-                    </div>
-                    <p class="text-sm leading-relaxed text-slate-500 mb-5">Il laboratorio gastronomico dove ogni bowl &egrave; un&#39;opera unica. Ingredienti freschi, combinazioni infinite.</p>
-                    <div class="flex gap-3">
-                        <a href="#" class="social-icon" aria-label="Instagram">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="TikTok">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.69a4.85 4.85 0 01-1.01-.0z"/></svg>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="Facebook">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold text-sm uppercase tracking-widest mb-4">Naviga</h4>
-                    <ul class="flex flex-col gap-2.5 text-sm">
-                        <li><button data-page="home"         class="nav-link footer-nav-link hover:text-brand transition-colors">Home</button></li>
-                        <li><button data-page="configurator" class="nav-link footer-nav-link hover:text-brand transition-colors">Configuratore</button></li>
-                        <li><button data-page="about"        class="nav-link footer-nav-link hover:text-brand transition-colors">Chi Siamo</button></li>
-                        <li><button data-page="contact"      class="nav-link footer-nav-link hover:text-brand transition-colors">Contatti</button></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold text-sm uppercase tracking-widest mb-4">Legale</h4>
-                    <ul class="flex flex-col gap-2.5 text-sm">
-                        <li><a href="#" class="hover:text-brand transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-brand transition-colors">Cookie Policy</a></li>
-                        <li><a href="#" class="hover:text-brand transition-colors">Termini di Servizio</a></li>
-                        <li><a href="#" class="hover:text-brand transition-colors">Informativa Allergeni</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold text-sm uppercase tracking-widest mb-4">Contatti</h4>
-                    <ul class="flex flex-col gap-2.5 text-sm">
-                        <li class="flex items-start gap-2"><span class="text-brand mt-0.5">&#x1F4CD;</span> Via Tortona, 42 &mdash; Milano</li>
-                        <li class="flex items-start gap-2"><span class="text-brand mt-0.5">&#x1F4DE;</span> <a href="tel:+390212345678" class="hover:text-brand transition-colors">+39 02 1234 5678</a></li>
-                        <li class="flex items-start gap-2"><span class="text-brand mt-0.5">&#x2709;</span> <a href="mailto:ciao@gastrolab.it" class="hover:text-brand transition-colors">ciao@gastrolab.it</a></li>
-                        <li class="flex items-start gap-2 mt-1"><span class="text-emerald-400 mt-0.5">&bull;</span><span class="text-slate-500 text-xs leading-relaxed">Lun&ndash;Ven 11:00&ndash;22:00<br>Sab 11:00&ndash;23:00</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div class="text-xs text-slate-600 text-center sm:text-left leading-relaxed">
-                    <span>&copy; 2025 GastroLab S.r.l. &mdash; P.IVA 12345678901 &mdash; Tutti i diritti riservati.</span>
-                    <span class="mx-2 text-slate-700">&middot;</span>
-                    <span class="text-slate-500 italic">GastroLab Engine by Chef Franco</span>
-                </div>
+    <footer class="border-t border-zinc-100 bg-white py-10 mt-24">
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6 text-center sm:text-left">
+            <p class="text-xs text-zinc-400 font-light">&copy; 2026 GastroLab S.r.l. Sistemi di configurazione
+                alimentare.</p>
+            <div class="flex items-center gap-4">
+                <span class="text-xs text-zinc-400 font-mono italic">Engine Core v3 by Chef Franco</span>
                 <button id="secret-admin-link"
-                    class="text-[10px] text-slate-800 hover:text-slate-500 transition-colors duration-300 font-mono tracking-[0.4em] cursor-pointer select-none px-2 py-1 rounded hover:bg-slate-800/40"
-                    title="Area riservata" aria-label="Accesso amministratore">
+                    class="text-[10px] text-zinc-300 hover:text-zinc-950 font-mono tracking-[0.4em] transition-colors uppercase focus:outline-none"
+                    title="Area riservata">
                     &middot;&middot;&middot;
                 </button>
             </div>
         </div>
     </footer>
 
-    <!-- CHECKOUT OVERLAY -->
-    <div id="checkout-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[2000] flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300" aria-hidden="true">
-        <div class="bg-white rounded-3xl p-8 max-w-sm w-[90%] text-center shadow-2xl transform scale-90 transition-transform duration-300 ease-out" id="checkout-modal">
-            <div id="lottie-checkout-container" class="w-40 h-40 mx-auto mb-2"></div>
-            <h3 class="text-2xl font-bold text-slate-900 mb-2">Ordine Inviato!</h3>
-            <p class="text-slate-600 text-sm mb-6">Chef Franco ha ricevuto il tuo ordine. La tua poke bowl &egrave; in preparazione.</p>
-            <button type="button" id="close-modal-btn" class="w-full bg-slate-900 hover:bg-brand text-white py-3 rounded-xl font-bold transition-colors duration-200">Torna alla Home</button>
+    <div id="checkout-overlay"
+        class="fixed inset-0 bg-zinc-950/40 backdrop-blur-xs z-[2000] flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300"
+        aria-hidden="true">
+        <div class="bg-white border border-zinc-100 rounded-3xl p-8 max-w-sm w-[90%] text-center shadow-2xl transform scale-95 transition-transform duration-300 ease-out"
+            id="checkout-modal">
+            <div id="lottie-checkout-container" class="w-28 h-28 mx-auto mb-4 opacity-90"></div>
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-950 mb-2">Comanda Presa in Carico</h3>
+            <p class="text-zinc-500 text-xs mb-6 leading-relaxed">L'ordine è stato trasmesso ai banchi di preparazione.
+                La composizione geometrica della tua Poke d'Autore ha inizio.</p>
+            <button type="button" id="close-modal-btn"
+                class="w-full bg-zinc-950 hover:bg-zinc-900 text-white font-medium py-3 text-xs tracking-wider uppercase transition-colors rounded-xl">Inizia
+                Nuova Sessione</button>
         </div>
     </div>
 
 </body>
+
 </html>

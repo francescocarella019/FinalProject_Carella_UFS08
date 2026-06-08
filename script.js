@@ -2,9 +2,9 @@
  * GastroLab — SPA Engine v3
  * ─────────────────────────────────────────────────────────────────────────────
  * Fix #1  – autoAdvance topping: trigger scatta su newCatCount >= max
- *           (funziona per max=1, max=2, max=3 — incluso topping min=0)
+ * (funziona per max=1, max=2, max=3 — incluso topping min=0)
  * Fix #2  – loadPreset: imposta activeCategory='sauce' + chiama renderConfigurator
- *           → isBowlValid()=true → computeProgressBar() → 100% verde immediato
+ * → isBowlValid()=true → computeProgressBar() → 100% verde immediato
  * NEW     – state.orderHistory + localStorage, dashboard admin, footer link segreto
  * ─────────────────────────────────────────────────────────────────────────────
  */
@@ -16,29 +16,34 @@
    ========================================================================== */
 
 const INGREDIENTS_DATA = [
-    { id:'b1', name:'Riso Bianco',  type:'base',    price:2.00, cals:150, icon:'🍚', isVegan:true,  isGlutenFree:true,  img:'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=300&auto=format&fit=crop&q=60' },
-    { id:'b2', name:'Quinoa',       type:'base',    price:3.00, cals:120, icon:'🌾', isVegan:true,  isGlutenFree:true,  img:'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&auto=format&fit=crop&q=60' },
-    { id:'p1', name:'Salmone',      type:'protein', price:5.00, cals:200, icon:'🐟', isVegan:false, isGlutenFree:true,  img:'https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?w=300&auto=format&fit=crop&q=60' },
-    { id:'p2', name:'Tonno',        type:'protein', price:6.00, cals:180, icon:'🥩', isVegan:false, isGlutenFree:true,  img:'https://images.unsplash.com/photo-1501595091296-3aa970afb3ff?w=300&auto=format&fit=crop&q=60' },
-    { id:'p3', name:'Tofu',         type:'protein', price:4.00, cals:100, icon:'🟩', isVegan:true,  isGlutenFree:true,  img:'https://images.unsplash.com/photo-1584984241774-67d710bf365f?w=300&auto=format&fit=crop&q=60' },
-    { id:'t1', name:'Avocado',      type:'topping', price:1.50, cals:80,  icon:'🥑', isVegan:true,  isGlutenFree:true,  img:'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=300&auto=format&fit=crop&q=60' },
-    { id:'t2', name:'Edamame',      type:'topping', price:1.00, cals:50,  icon:'🫛', isVegan:true,  isGlutenFree:true,  img:'https://images.unsplash.com/photo-1615462444634-118baefae21b?w=300&auto=format&fit=crop&q=60' },
-    { id:'t3', name:'Alga Wakame',  type:'topping', price:1.00, cals:30,  icon:'🌿', isVegan:true,  isGlutenFree:false, img:'https://images.unsplash.com/photo-1615462444634-118baefae21b?w=300&auto=format&fit=crop&q=60' },
-    { id:'s1', name:'Teriyaki',     type:'sauce',   price:0.00, cals:50,  icon:'🍯', isVegan:true,  isGlutenFree:false, img:'https://images.unsplash.com/photo-1605721160676-e1e3532c1eb3?w=300&auto=format&fit=crop&q=60' },
-    { id:'s2', name:'Spicy Mayo',   type:'sauce',   price:0.00, cals:80,  icon:'🌶️', isVegan:false, isGlutenFree:true,  img:'https://images.unsplash.com/photo-1592518428581-22485590cb78?w=300&auto=format&fit=crop&q=60' },
+    { id: 'b1', name: 'Riso Bianco', type: 'base', price: 2.00, cals: 150, icon: '🍚', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&h=300&fit=crop&q=80' },
+    { id: 'b2', name: 'Quinoa', type: 'base', price: 3.00, cals: 120, icon: '🌾', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80' },
+    { id: 'b3', name: 'Riso Integrale', type: 'base', price: 2.50, cals: 130, icon: '🟤', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&h=300&fit=crop&q=80' },
+    { id: 'p1', name: 'Salmone', type: 'protein', price: 5.00, cals: 200, icon: '🐟', isVegan: false, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop&q=80' },
+    { id: 'p2', name: 'Tonno', type: 'protein', price: 6.00, cals: 180, icon: '🥩', isVegan: false, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&h=300&fit=crop&q=80' },
+    { id: 'p3', name: 'Tofu', type: 'protein', price: 4.00, cals: 100, icon: '🟩', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1546069901-d5bfd2cbfb1f?w=400&h=300&fit=crop&q=80' },
+    { id: 't1', name: 'Avocado', type: 'topping', price: 1.50, cals: 80, icon: '🥑', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=300&fit=crop&q=80' },
+    { id: 't2', name: 'Edamame', type: 'topping', price: 1.00, cals: 50, icon: '🫛', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=400&h=300&fit=crop&q=80' },
+    { id: 't3', name: 'Alga Wakame', type: 'topping', price: 1.00, cals: 30, icon: '🌿', isVegan: true, isGlutenFree: false, img: 'https://images.unsplash.com/photo-1547496502-affa22d38842?w=400&h=300&fit=crop&q=80' },
+    { id: 't4', name: 'Cetriolo', type: 'topping', price: 0.80, cals: 15, icon: '🥒', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400&h=300&fit=crop&q=80' },
+    { id: 't5', name: 'Mango', type: 'topping', price: 1.20, cals: 60, icon: '🥭', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=300&fit=crop&q=80' },
+    { id: 't6', name: 'Sesamo Tostato', type: 'topping', price: 0.50, cals: 25, icon: '🌰', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?w=400&h=300&fit=crop&q=80' },
+    { id: 's1', name: 'Teriyaki', type: 'sauce', price: 0.00, cals: 50, icon: '🍯', isVegan: true, isGlutenFree: false, img: 'https://images.unsplash.com/photo-1682482003091-d7d6427041fa?w=400&h=300&fit=crop&q=80' },
+    { id: 's2', name: 'Spicy Mayo', type: 'sauce', price: 0.00, cals: 80, icon: '🌶️', isVegan: false, isGlutenFree: true, img: 'https://media.istockphoto.com/id/1195877732/photo/tasty-burger-sauce-in-bowl-isolated-on-white-background.jpg' },
+    { id: 's3', name: 'Ponzu', type: 'sauce', price: 0.00, cals: 35, icon: '🍋', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&h=300&fit=crop&q=80' },
 ];
 
 const CATEGORIES_CONFIG = {
-    base:    { label:'Base',     instruction:'Scegli la tua Base (Max 1)',            max:1, min:1, step:1 },
-    protein: { label:'Proteine', instruction:'Aggiungi le tue Proteine (Fino a 2)',   max:2, min:1, step:2 },
-    topping: { label:'Topping',  instruction:'Arricchisci con i Topping (Fino a 3)', max:3, min:0, step:3 },
-    sauce:   { label:'Salse',    instruction:'Completa con le Salse (Fino a 2)',      max:2, min:0, step:4 },
+    base: { label: 'Base', instruction: 'Scegli la tua Base (Max 1)', max: 1, min: 1, step: 1 },
+    protein: { label: 'Proteine', instruction: 'Aggiungi le tue Proteine (Fino a 2)', max: 2, min: 1, step: 2 },
+    topping: { label: 'Topping', instruction: 'Arricchisci con i Topping (Fino a 3)', max: 3, min: 0, step: 3 },
+    sauce: { label: 'Salse', instruction: 'Completa con le Salse (Fino a 2)', max: 2, min: 0, step: 4 },
 };
 
 const PRESETS_DATA = [
-    { name:'🏆 Classic Salmon', description:'Il grande classico. Riso, salmone, avocado e salsa teriyaki.',       items:{ b1:1, p1:1, t1:1, s1:1 }, price:'8.50€', cals:'480 kcal', tag:'Bestseller', tagColor:'bg-amber-400 text-amber-900' },
-    { name:'🍃 Green Vegan',    description:'Quinoa, tofu, edamame e teriyaki. 100% plant-based.',                items:{ b2:1, p3:1, t2:1, s1:1 }, price:'8.00€', cals:'320 kcal', tag:'Vegan',      tagColor:'bg-emerald-400 text-emerald-900' },
-    { name:'🌶️ Spicy Tuna',     description:'Riso bianco, tonno, alga wakame e spicy mayo per i coraggiosi.',    items:{ b1:1, p2:1, t3:1, s2:1 }, price:'9.00€', cals:'460 kcal', tag:'Piccante',   tagColor:'bg-red-400 text-red-900' },
+    { name: 'La Vaporiera', description: 'Il grande classico. Riso, salmone, avocado e salsa teriyaki.', items: { b1: 1, p1: 1, t1: 1, s1: 1 }, price: '8.50€', cals: '480 kcal', tag: 'Bestseller', tagColor: 'bg-amber-400 text-amber-900', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop&q=80' },
+    { name: 'Il Prato', description: 'Quinoa, tofu, edamame e teriyaki. 100% plant-based.', items: { b2: 1, p3: 1, t2: 1, s1: 1 }, price: '8.00€', cals: '320 kcal', tag: 'Vegan', tagColor: 'bg-emerald-400 text-emerald-900', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&q=80' },
+    { name: 'La Bomba', description: 'Riso bianco, tonno, alga wakame e spicy mayo per i coraggiosi.', items: { b1: 1, p2: 1, t3: 1, s2: 1 }, price: '9.00€', cals: '460 kcal', tag: 'Piccante', tagColor: 'bg-red-400 text-red-900', img: 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&h=400&fit=crop&q=80' },
 ];
 
 
@@ -50,17 +55,17 @@ const loadOrderHistory = () => {
     try { const r = localStorage.getItem('gl_orders'); return r ? JSON.parse(r) : []; } catch { return []; }
 };
 const persistOrderHistory = (h) => {
-    try { localStorage.setItem('gl_orders', JSON.stringify(h)); } catch {}
+    try { localStorage.setItem('gl_orders', JSON.stringify(h)); } catch { }
 };
 
 const state = {
-    currentPage:    'home',
-    cart:           [],
-    currentBowl:    {},
+    currentPage: 'home',
+    cart: [],
+    currentBowl: {},
     activeCategory: 'base',
-    filters:        { vegan: false, glutenFree: false },
+    filters: { vegan: false, glutenFree: false },
     mobileMenuOpen: false,
-    orderHistory:   loadOrderHistory(),
+    orderHistory: loadOrderHistory(),
 };
 
 
@@ -75,64 +80,64 @@ let lottieCheckout = null;
 const cacheDOMElements = () => {
     DOM = {
         pages: {
-            home:         document.getElementById('page-home'),
+            home: document.getElementById('page-home'),
             configurator: document.getElementById('page-configurator'),
-            about:        document.getElementById('page-about'),
-            contact:      document.getElementById('page-contact'),
-            dashboard:    document.getElementById('page-dashboard'),
+            about: document.getElementById('page-about'),
+            contact: document.getElementById('page-contact'),
+            dashboard: document.getElementById('page-dashboard'),
         },
-        logoLink:               document.getElementById('logo-link'),
-        mobileMenuBtn:          document.getElementById('mobile-menu-btn'),
-        mobileMenu:             document.getElementById('mobile-menu'),
-        hamburgerIcon:          document.getElementById('hamburger-icon'),
-        presetsContainer:       document.getElementById('presets-container'),
+        logoLink: document.getElementById('logo-link'),
+        mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+        mobileMenu: document.getElementById('mobile-menu'),
+        hamburgerIcon: document.getElementById('hamburger-icon'),
+        presetsContainer: document.getElementById('presets-container'),
         presetsContainerMobile: document.getElementById('presets-container-mobile'),
-        famousPokGrid:          document.getElementById('famous-poke-grid'),
-        bowlLivingContent:      document.getElementById('bowl-living-content'),
-        emptyBowlPlaceholder:   document.getElementById('empty-bowl-placeholder'),
-        bowlTagsPreview:        document.getElementById('bowl-tags-preview'),
-        totalCaloriesBadge:     document.getElementById('total-calories-badge'),
-        currentBowlPrice:       document.getElementById('current-bowl-price'),
-        categoryInstruction:    document.getElementById('category-instruction'),
-        stepCounter:            document.getElementById('step-counter'),
-        ingredientsGrid:        document.getElementById('ingredients-grid'),
-        mainActionBtn:          document.getElementById('main-action-btn'),
-        filterVegan:            document.getElementById('filter-vegan'),
-        filterGf:               document.getElementById('filter-gf'),
-        progressBar:            document.getElementById('main-progress-bar'),
-        lottieFeedbackContainer:document.getElementById('lottie-feedback-container'),
-        lottieCheckoutContainer:document.getElementById('lottie-checkout-container'),
-        checkoutOverlay:        document.getElementById('checkout-overlay'),
-        checkoutModal:          document.getElementById('checkout-modal'),
-        closeModalBtn:          document.getElementById('close-modal-btn'),
-        cartToggleBtn:          document.getElementById('cart-toggle-btn'),
-        cartBadge:              document.getElementById('cart-badge'),
-        cartDrawer:             document.getElementById('cart-drawer'),
-        cartBackdrop:           document.getElementById('cart-backdrop'),
-        cartCloseBtn:           document.getElementById('cart-close-btn'),
-        cartItemsContainer:     document.getElementById('cart-items-container'),
-        cartTotalPrice:         document.getElementById('cart-total-price'),
-        checkoutBtn:            document.getElementById('checkout-btn'),
+        famousPokGrid: document.getElementById('famous-poke-grid'),
+        bowlLivingContent: document.getElementById('bowl-living-content'),
+        emptyBowlPlaceholder: document.getElementById('empty-bowl-placeholder'),
+        bowlTagsPreview: document.getElementById('bowl-tags-preview'),
+        totalCaloriesBadge: document.getElementById('total-calories-badge'),
+        currentBowlPrice: document.getElementById('current-bowl-price'),
+        categoryInstruction: document.getElementById('category-instruction'),
+        stepCounter: document.getElementById('step-counter'),
+        ingredientsGrid: document.getElementById('ingredients-grid'),
+        mainActionBtn: document.getElementById('main-action-btn'),
+        filterVegan: document.getElementById('filter-vegan'),
+        filterGf: document.getElementById('filter-gf'),
+        progressBar: document.getElementById('main-progress-bar'),
+        lottieFeedbackContainer: document.getElementById('lottie-feedback-container'),
+        lottieCheckoutContainer: document.getElementById('lottie-checkout-container'),
+        checkoutOverlay: document.getElementById('checkout-overlay'),
+        checkoutModal: document.getElementById('checkout-modal'),
+        closeModalBtn: document.getElementById('close-modal-btn'),
+        cartToggleBtn: document.getElementById('cart-toggle-btn'),
+        cartBadge: document.getElementById('cart-badge'),
+        cartDrawer: document.getElementById('cart-drawer'),
+        cartBackdrop: document.getElementById('cart-backdrop'),
+        cartCloseBtn: document.getElementById('cart-close-btn'),
+        cartItemsContainer: document.getElementById('cart-items-container'),
+        cartTotalPrice: document.getElementById('cart-total-price'),
+        checkoutBtn: document.getElementById('checkout-btn'),
         tabs: {
-            base:    document.getElementById('tab-base'),
+            base: document.getElementById('tab-base'),
             protein: document.getElementById('tab-protein'),
             topping: document.getElementById('tab-topping'),
-            sauce:   document.getElementById('tab-sauce'),
+            sauce: document.getElementById('tab-sauce'),
         },
         statuses: {
-            base:    document.getElementById('status-base'),
+            base: document.getElementById('status-base'),
             protein: document.getElementById('status-protein'),
             topping: document.getElementById('status-topping'),
-            sauce:   document.getElementById('status-sauce'),
+            sauce: document.getElementById('status-sauce'),
         },
-        contactSubmitBtn:    document.getElementById('contact-submit-btn'),
-        contactSuccessMsg:   document.getElementById('contact-success-msg'),
-        secretAdminLink:     document.getElementById('secret-admin-link'),
-        clearHistoryBtn:     document.getElementById('clear-history-btn'),
-        kpiRevenue:          document.getElementById('kpi-revenue'),
-        kpiBowls:            document.getElementById('kpi-bowls'),
-        kpiOrders:           document.getElementById('kpi-orders'),
-        ordersCountBadge:    document.getElementById('orders-count-badge'),
+        contactSubmitBtn: document.getElementById('contact-submit-btn'),
+        contactSuccessMsg: document.getElementById('contact-success-msg'),
+        secretAdminLink: document.getElementById('secret-admin-link'),
+        clearHistoryBtn: document.getElementById('clear-history-btn'),
+        kpiRevenue: document.getElementById('kpi-revenue'),
+        kpiBowls: document.getElementById('kpi-bowls'),
+        kpiOrders: document.getElementById('kpi-orders'),
+        ordersCountBadge: document.getElementById('orders-count-badge'),
         dashboardOrdersList: document.getElementById('dashboard-orders-list'),
     };
 };
@@ -186,7 +191,7 @@ const navigateTo = (page) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     if (page === 'configurator') renderConfigurator();
-    if (page === 'dashboard')    renderDashboard();
+    if (page === 'dashboard') renderDashboard();
 };
 
 const closeMobileMenu = () => {
@@ -208,39 +213,49 @@ const openMobileMenu = () => {
    ========================================================================== */
 
 const IngredientSelectorCard = (item, qty, maxReached) => {
-    const sel   = qty > 0;
-    const tag   = item.isVegan ? 'Vegan' : (item.isGlutenFree ? 'GF' : '');
-    const ring  = sel ? 'border-brand bg-brandLight shadow-md' : 'border-slate-200 bg-white hover:border-brand/50 hover:shadow-md';
+    const sel = qty > 0;
+    const borderCls = sel
+        ? 'border-brand shadow-md'
+        : 'border-transparent hover:border-slate-200 hover:shadow-sm';
     return `
-        <article class="ingredient-card flex flex-col justify-between p-3 lg:p-4 rounded-2xl border-2 transition-all duration-200 min-h-[160px] lg:min-h-[180px] ${ring}" data-id="${item.id}">
-            <div class="w-full h-20 rounded-xl overflow-hidden bg-slate-100 relative">
-                <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover" loading="lazy">
-                ${tag ? `<span class="absolute top-1 right-1 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-md">${tag}</span>` : ''}
-                ${sel ? `<div class="absolute inset-0 bg-brand/10 flex items-center justify-center"><span class="text-brand text-2xl font-black">✓</span></div>` : ''}
+<article class="ingredient-card group bg-white rounded-2xl border-2 overflow-hidden cursor-pointer transition-all duration-200 ${borderCls}" data-id="${item.id}"> <div class="relative overflow-hidden" style="height:128px">
+                <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy">
+                ${sel ? `
+                <div class="absolute inset-0 bg-brand/30 flex items-center justify-center">
+                    <div class="w-10 h-10 bg-brand rounded-full flex items-center justify-center shadow-lg">
+                        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                </div>` : ''}
+                <div class="absolute top-2 left-2 flex gap-1">
+                    ${item.isVegan ? `<span class="bg-emerald-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide shadow-sm">Vegan</span>` : ''}
+                    ${item.isGlutenFree ? `<span class="bg-sky-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide shadow-sm">GF</span>` : ''}
+                </div>
+                ${qty > 1 ? `<span class="absolute top-2 right-2 bg-brand text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center shadow">×${qty}</span>` : ''}
             </div>
-            <div class="mt-2 flex-1">
-                <h4 class="text-sm lg:text-base font-bold text-slate-900 leading-tight">${item.icon} ${item.name}</h4>
-                <p class="text-[11px] lg:text-xs font-medium text-slate-500 mt-0.5">+${item.price.toFixed(2)}€ &bull; ${item.cals} kcal</p>
-            </div>
-            <div class="mt-3">
+            <div class="p-3">
+                <h4 class="font-bold text-slate-900 text-sm leading-tight mb-1.5">${item.name}</h4>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-brand font-black text-sm">${item.price > 0 ? `+${item.price.toFixed(2)}€` : 'Inclusa'}</span>
+                    <span class="text-slate-400 text-[11px] font-medium">${item.cals} kcal</span>
+                </div>
                 ${!sel
-                    ? `<button type="button" class="w-full bg-slate-100 hover:bg-brand hover:text-white border border-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-xl transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed" data-action="add" ${maxReached ? 'disabled' : ''}>${maxReached ? 'Limite Raggiunto' : 'Aggiungi'}</button>`
-                    : `<div class="flex items-center justify-between bg-white border border-brand rounded-xl overflow-hidden h-8">
-                            <button type="button" class="w-8 h-full text-brand font-bold hover:bg-brand hover:text-white transition-colors" data-action="decrease">−</button>
+            ? `<button type="button" class="w-full bg-slate-900 hover:bg-brand text-white text-xs font-bold py-2 rounded-xl transition-colors duration-150 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed" data-action="add" ${maxReached ? 'disabled' : ''}>${maxReached ? 'Limite raggiunto' : '+ Aggiungi'}</button>`
+            : `<div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl overflow-hidden h-8">
+                            <button type="button" class="w-9 h-full text-slate-600 font-bold hover:bg-red-50 hover:text-red-500 transition-colors" data-action="decrease">−</button>
                             <span class="text-sm font-bold text-slate-900">${qty}</span>
-                            <button type="button" class="w-8 h-full text-brand font-bold hover:bg-brand hover:text-white transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-brand" data-action="increase" ${maxReached ? 'disabled' : ''}>+</button>
+                            <button type="button" class="w-9 h-full text-slate-600 font-bold hover:bg-brand hover:text-white transition-colors disabled:opacity-30" data-action="increase" ${maxReached ? 'disabled' : ''}>+</button>
                        </div>`
-                }
+        }
             </div>
         </article>`;
 };
 
 const FamousPokeCard = (p) => `
     <div class="poke-preset-card bg-white rounded-3xl border border-slate-200 overflow-hidden group">
-        <div class="bg-slate-900 h-36 flex items-center justify-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-brand/20 to-transparent"></div>
-            <span class="text-7xl group-hover:scale-110 transition-transform duration-300 relative z-10">🥗</span>
-            <span class="absolute top-4 left-4 ${p.tagColor} text-xs font-black px-3 py-1 rounded-full">${p.tag}</span>
+        <div class="relative h-48 overflow-hidden">
+            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/55 via-slate-900/10 to-transparent"></div>
+            <span class="absolute top-4 left-4 ${p.tagColor} text-xs font-black px-3 py-1 rounded-full shadow">${p.tag}</span>
         </div>
         <div class="p-6">
             <h3 class="font-bold text-slate-900 text-lg mb-2">${p.name}</h3>
@@ -252,30 +267,32 @@ const FamousPokeCard = (p) => `
         </div>
     </div>`;
 
+// Cambiate le classi grafiche esclusivamente in questo componente (Stile Shadcn Minimal Geometrico)
 const PresetChip = (p) => `
-    <button type="button" class="btn-preset bg-slate-50 hover:bg-brandLight border border-slate-200 hover:border-brand hover:text-brand px-4 py-1.5 rounded-full text-xs font-bold text-slate-700 transition-all duration-200 whitespace-nowrap" data-preset='${JSON.stringify(p.items)}'>${p.name}</button>`;
+    <button type="button" class="btn-preset bg-white hover:bg-zinc-100 border border-zinc-200 hover:border-black text-zinc-900 px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-150 whitespace-nowrap shadow-sm cursor-pointer" data-preset='${JSON.stringify(p.items)}'>${p.name}</button>`;
 
 const CartItemCard = (bowl, idx) => {
     let price = 0;
     const desc = Object.keys(bowl).map(id => {
         const it = INGREDIENTS_DATA.find(i => i.id === id);
+        if (!it) return '';
         price += it.price * bowl[id];
-        return `${it.icon} ${it.name}${bowl[id] > 1 ? ` ×${bowl[id]}` : ''}`;
+        return `${it.name}${bowl[id] > 1 ? ` ×${bowl[id]}` : ''}`;
     }).join(' · ');
     return `
         <div class="bg-white p-4 rounded-2xl border border-slate-200 relative shadow-sm">
-            <button class="absolute top-3 right-3 bg-red-50 text-red-400 hover:bg-red-500 hover:text-white w-7 h-7 rounded-lg text-sm font-bold transition-colors flex items-center justify-center btn-remove-item" data-index="${idx}" aria-label="Rimuovi poke ${idx+1}">×</button>
-            <div class="font-bold text-slate-800 text-sm mb-1 pr-8">Poke Personalizzata #${idx+1}</div>
+            <button class="absolute top-3 right-3 bg-red-50 text-red-400 hover:bg-red-500 hover:text-white w-7 h-7 rounded-lg text-sm font-bold transition-colors flex items-center justify-center btn-remove-item" data-index="${idx}" aria-label="Rimuovi poke ${idx + 1}">×</button>
+            <div class="font-bold text-slate-800 text-sm mb-1 pr-8">Poke Personalizzata #${idx + 1}</div>
             <div class="text-xs text-slate-500 mb-2 leading-relaxed">${desc}</div>
             <div class="font-black text-brand text-lg">${price.toFixed(2)}€</div>
         </div>`;
 };
 
 const OrderHistoryCard = (order, orderNumber) => {
-    const d    = new Date(order.timestamp);
-    const date = d.toLocaleDateString('it-IT', { day:'2-digit', month:'short', year:'numeric' });
-    const time = d.toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' });
-    const num  = String(orderNumber).padStart(3, '0');
+    const d = new Date(order.timestamp);
+    const date = d.toLocaleDateString('it-IT', { day: '2-digit', month: 'short', year: 'numeric' });
+    const time = d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+    const num = String(orderNumber).padStart(3, '0');
 
     const bowlsHtml = order.bowls.map((bowl, bIdx) => {
         let bPrice = 0;
@@ -288,7 +305,7 @@ const OrderHistoryCard = (order, orderNumber) => {
         return `
             <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                 <div class="flex justify-between items-center mb-2">
-                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Bowl #${bIdx+1}</span>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Bowl #${bIdx + 1}</span>
                     <span class="text-brand font-black text-sm">${bPrice.toFixed(2)}€</span>
                 </div>
                 <div class="flex flex-wrap gap-1.5">${chips}</div>
@@ -336,10 +353,10 @@ const isBowlValid = () =>
  * ─ Altrimenti → percentuale lineare dello step corrente
  */
 const computeProgressBar = () => {
-    const seq   = Object.keys(CATEGORIES_CONFIG);
-    const idx   = seq.indexOf(state.activeCategory);
+    const seq = Object.keys(CATEGORIES_CONFIG);
+    const idx = seq.indexOf(state.activeCategory);
     const valid = isBowlValid();
-    const pct   = valid ? 100 : Math.round(((idx + 1) / seq.length) * 100);
+    const pct = valid ? 100 : Math.round(((idx + 1) / seq.length) * 100);
     return {
         pct,
         cls: valid
@@ -351,19 +368,19 @@ const computeProgressBar = () => {
 const renderConfigurator = () => {
     if (!DOM.ingredientsGrid) return;
 
-    const cfg   = CATEGORIES_CONFIG[state.activeCategory];
+    const cfg = CATEGORIES_CONFIG[state.activeCategory];
     const count = getCatCount(state.activeCategory);
     const maxed = count >= cfg.max;
-    const seq   = Object.keys(CATEGORIES_CONFIG);
-    const idx   = seq.indexOf(state.activeCategory);
+    const seq = Object.keys(CATEGORIES_CONFIG);
+    const idx = seq.indexOf(state.activeCategory);
 
     // Instruction + counter
     if (DOM.categoryInstruction) DOM.categoryInstruction.textContent = cfg.instruction;
-    if (DOM.stepCounter)         DOM.stepCounter.textContent         = `${idx + 1} / ${seq.length}`;
+    if (DOM.stepCounter) DOM.stepCounter.textContent = `${idx + 1} / ${seq.length}`;
 
     // Grid
     let items = INGREDIENTS_DATA.filter(i => i.type === state.activeCategory);
-    if (state.filters.vegan)      items = items.filter(i => i.isVegan);
+    if (state.filters.vegan) items = items.filter(i => i.isVegan);
     if (state.filters.glutenFree) items = items.filter(i => i.isGlutenFree);
 
     DOM.ingredientsGrid.innerHTML = items.length === 0
@@ -373,7 +390,7 @@ const renderConfigurator = () => {
     // Tabs + badges
     seq.forEach(cat => {
         const c = getCatCount(cat);
-        if (DOM.tabs[cat])     DOM.tabs[cat].classList.toggle('active', cat === state.activeCategory);
+        if (DOM.tabs[cat]) DOM.tabs[cat].classList.toggle('active', cat === state.activeCategory);
         if (DOM.statuses[cat]) {
             const done = c > 0 && c >= CATEGORIES_CONFIG[cat].min;
             DOM.statuses[cat].classList.toggle('completed', done);
@@ -389,61 +406,73 @@ const renderConfigurator = () => {
     renderLivingBowl();
     const totals = Object.keys(state.currentBowl).reduce((acc, id) => {
         const it = INGREDIENTS_DATA.find(i => i.id === id);
-        const q  = state.currentBowl[id];
+        const q = state.currentBowl[id];
         return { price: acc.price + it.price * q, cals: acc.cals + it.cals * q };
-    }, { price:0, cals:0 });
+    }, { price: 0, cals: 0 });
     if (DOM.totalCaloriesBadge) DOM.totalCaloriesBadge.textContent = `${totals.cals} kcal`;
-    if (DOM.currentBowlPrice)   DOM.currentBowlPrice.textContent   = `${totals.price.toFixed(2)}€`;
+    if (DOM.currentBowlPrice) DOM.currentBowlPrice.textContent = `${totals.price.toFixed(2)}€`;
 
     updateStickyBar();
 };
 
 const renderLivingBowl = () => {
     if (!DOM.bowlLivingContent) return;
-    DOM.bowlLivingContent.querySelectorAll('.living-chip').forEach(c => c.remove());
-    const items = Object.keys(state.currentBowl).flatMap(id =>
-        Array(state.currentBowl[id]).fill(INGREDIENTS_DATA.find(i => i.id === id))
-    );
+    
+    // Puliamo il contenitore dalle vecchie generazioni
+    DOM.bowlLivingContent.innerHTML = '';
+    DOM.bowlLivingContent.className = "flex flex-col gap-2 w-full animate-fade-in";
+
+    const items = Object.keys(state.currentBowl).map(id => {
+        return {
+            qty: state.currentBowl[id],
+            data: INGREDIENTS_DATA.find(i => i.id === id)
+        };
+    }).filter(item => item.data !== undefined);
+
     if (items.length === 0) {
         DOM.emptyBowlPlaceholder.style.display = 'flex';
         DOM.bowlTagsPreview.textContent = 'Nessun ingrediente selezionato';
         return;
     }
+    
     DOM.emptyBowlPlaceholder.style.display = 'none';
-    const lg = window.innerWidth >= 1024;
-    items.forEach((it, i) => {
-        const chip = document.createElement('div');
-        chip.className = 'living-chip';
-        chip.innerHTML = it.icon;
-        chip.title     = it.name;
-        const r = lg ? 65 : 30, o = lg ? 95 : 38;
-        const a = (i * 360 / items.length) * Math.PI / 180;
-        chip.style.left = `${o + r * Math.cos(a)}px`;
-        chip.style.top  = `${o + r * Math.sin(a)}px`;
-        DOM.bowlLivingContent.appendChild(chip);
+
+    // Genera una lista ordinata e geometrica degli ingredienti scelti
+    items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs transition-all";
+        row.innerHTML = `
+            <div class="flex items-center gap-3">
+                <span class="text-base">${item.data.icon}</span>
+                <span class="font-medium text-zinc-950">${item.data.name}</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-zinc-400 font-mono">${(item.data.price * item.qty).toFixed(2)}€</span>
+                <span class="bg-zinc-950 text-white font-mono text-[10px] px-2 py-0.5 rounded font-bold">×${item.qty}</span>
+            </div>
+        `;
+        DOM.bowlLivingContent.appendChild(row);
     });
-    DOM.bowlTagsPreview.textContent = Object.keys(state.currentBowl).map(id => {
-        const it = INGREDIENTS_DATA.find(i => i.id === id);
-        return `${it.name}${state.currentBowl[id] > 1 ? ` ×${state.currentBowl[id]}` : ''}`;
-    }).join(' · ');
+
+    DOM.bowlTagsPreview.textContent = items.map(item => `${item.data.name} (×${item.qty})`).join(' · ');
 };
 
 const updateStickyBar = () => {
     if (!DOM.mainActionBtn) return;
     if (isBowlValid()) {
-        DOM.mainActionBtn.disabled    = false;
+        DOM.mainActionBtn.disabled = false;
         DOM.mainActionBtn.textContent = 'Aggiungi al Carrello 🛒';
-        DOM.mainActionBtn.onclick     = addCurrentBowlToCart;
+        DOM.mainActionBtn.onclick = addCurrentBowlToCart;
         return;
     }
     const next = Object.keys(CATEGORIES_CONFIG).find(c => getCatCount(c) < CATEGORIES_CONFIG[c].min);
     if (next) {
-        DOM.mainActionBtn.disabled    = false;
+        DOM.mainActionBtn.disabled = false;
         DOM.mainActionBtn.textContent = `Scegli ${CATEGORIES_CONFIG[next].label}`;
-        DOM.mainActionBtn.onclick     = () => {
+        DOM.mainActionBtn.onclick = () => {
             state.activeCategory = next;
             renderConfigurator();
-            DOM.tabs[next]?.scrollIntoView({ behavior:'smooth', block:'nearest' });
+            DOM.tabs[next]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         };
     }
 };
@@ -460,10 +489,10 @@ const updateStickyBar = () => {
  * perché hanno min=0. Rimosso intenzionalmente.
  */
 const modifyIngredientQty = (id, action) => {
-    const it  = INGREDIENTS_DATA.find(i => i.id === id);
+    const it = INGREDIENTS_DATA.find(i => i.id === id);
     if (!it) return;
-    const qty     = state.currentBowl[id] || 0;
-    const cfg     = CATEGORIES_CONFIG[it.type];
+    const qty = state.currentBowl[id] || 0;
+    const cfg = CATEGORIES_CONFIG[it.type];
     const catCount = getCatCount(it.type);  // conta PRIMA dell'aggiornamento
 
     if (action === 'add' || action === 'increase') {
@@ -480,18 +509,18 @@ const modifyIngredientQty = (id, action) => {
         }
     } else if (action === 'decrease') {
         if (qty > 1) state.currentBowl[id] = qty - 1;
-        else         delete state.currentBowl[id];
+        else delete state.currentBowl[id];
     }
     renderConfigurator();
 };
 
 const autoAdvanceCategory = () => {
     const seq = Object.keys(CATEGORIES_CONFIG);
-    const i   = seq.indexOf(state.activeCategory);
+    const i = seq.indexOf(state.activeCategory);
     if (i > -1 && i < seq.length - 1) {
         state.activeCategory = seq[i + 1];
         renderConfigurator();
-        DOM.tabs[state.activeCategory]?.scrollIntoView({ behavior:'smooth', block:'nearest' });
+        DOM.tabs[state.activeCategory]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 };
 
@@ -500,12 +529,12 @@ const autoAdvanceCategory = () => {
  * ─────────────────────────────────────────────────────────────────────────
  * Imposta activeCategory su 'sauce' (ultimo step) PRIMA di chiamare
  * renderConfigurator. In questo modo:
- *   · isBowlValid() = true (preset include base + protein, min soddisfatti)
- *   · computeProgressBar() → pct=100, cls=emerald
- *   · La barra diventa verde 100% immediatamente, senza ulteriori interazioni.
+ * · isBowlValid() = true (preset include base + protein, min soddisfatti)
+ * · computeProgressBar() → pct=100, cls=emerald
+ * · La barra diventa verde 100% immediatamente, senza ulteriori interazioni.
  */
 const loadPreset = (items) => {
-    state.currentBowl    = { ...items };
+    state.currentBowl = { ...items };
     // FIX #2: impostiamo 'sauce' (ultimo step) PRIMA della navigazione.
     // Così quando navigateTo → renderConfigurator viene chiamato,
     // isBowlValid()=true → computeProgressBar() → 100% verde immediato.
@@ -523,10 +552,10 @@ const loadPreset = (items) => {
 const toggleCartDrawer = (open) => {
     const o = typeof open === 'boolean' ? open : DOM.cartDrawer.classList.contains('translate-x-full');
     DOM.cartDrawer.classList.toggle('translate-x-full', !o);
-    DOM.cartDrawer.classList.toggle('translate-x-0',     o);
-    DOM.cartBackdrop.classList.toggle('opacity-0',            !o);
-    DOM.cartBackdrop.classList.toggle('pointer-events-none',  !o);
-    DOM.cartDrawer.setAttribute('aria-hidden',   String(!o));
+    DOM.cartDrawer.classList.toggle('translate-x-0', o);
+    DOM.cartBackdrop.classList.toggle('opacity-0', !o);
+    DOM.cartBackdrop.classList.toggle('pointer-events-none', !o);
+    DOM.cartDrawer.setAttribute('aria-hidden', String(!o));
     DOM.cartBackdrop.setAttribute('aria-hidden', String(!o));
 };
 
@@ -553,7 +582,7 @@ const renderCart = () => {
 
 const addCurrentBowlToCart = () => {
     state.cart.push({ ...state.currentBowl });
-    state.currentBowl    = {};
+    state.currentBowl = {};
     state.activeCategory = 'base';
     renderConfigurator();
     renderCart();
@@ -578,7 +607,7 @@ const resetAfterCheckout = () => {
             }, 0), 0);
 
         state.orderHistory.push({
-            bowls:     state.cart.map(b => ({ ...b })),
+            bowls: state.cart.map(b => ({ ...b })),
             total,
             timestamp: new Date().toISOString(),
         });
@@ -589,8 +618,8 @@ const resetAfterCheckout = () => {
     DOM.checkoutOverlay.classList.remove('active');
     DOM.checkoutOverlay.setAttribute('aria-hidden', 'true');
 
-    state.cart           = [];
-    state.currentBowl    = {};
+    state.cart = [];
+    state.currentBowl = {};
     state.activeCategory = 'base';
     renderConfigurator();
     renderCart();
@@ -604,12 +633,12 @@ const resetAfterCheckout = () => {
 
 const renderDashboard = () => {
     const orders = state.orderHistory;
-    const rev    = orders.reduce((s, o) => s + o.total, 0);
-    const bowls  = orders.reduce((s, o) => s + o.bowls.length, 0);
+    const rev = orders.reduce((s, o) => s + o.total, 0);
+    const bowls = orders.reduce((s, o) => s + o.bowls.length, 0);
 
-    if (DOM.kpiRevenue)       DOM.kpiRevenue.textContent       = `${rev.toFixed(2)}€`;
-    if (DOM.kpiBowls)         DOM.kpiBowls.textContent         = bowls;
-    if (DOM.kpiOrders)        DOM.kpiOrders.textContent        = orders.length;
+    if (DOM.kpiRevenue) DOM.kpiRevenue.textContent = `${rev.toFixed(2)}€`;
+    if (DOM.kpiBowls) DOM.kpiBowls.textContent = bowls;
+    if (DOM.kpiOrders) DOM.kpiOrders.textContent = orders.length;
     if (DOM.ordersCountBadge) DOM.ordersCountBadge.textContent = `${orders.length} ordini`;
 
     if (!DOM.dashboardOrdersList) return;
@@ -647,7 +676,7 @@ const clearOrderHistory = () => {
 const renderHomePage = () => {
     if (DOM.famousPokGrid) DOM.famousPokGrid.innerHTML = PRESETS_DATA.map(FamousPokeCard).join('');
     const chips = PRESETS_DATA.map(PresetChip).join('');
-    if (DOM.presetsContainer)       DOM.presetsContainer.innerHTML       = chips;
+    if (DOM.presetsContainer) DOM.presetsContainer.innerHTML = chips;
     if (DOM.presetsContainerMobile) DOM.presetsContainerMobile.innerHTML = chips;
 };
 
@@ -674,7 +703,7 @@ const setupEventListeners = () => {
 
     // Ingredient grid (delegation)
     DOM.ingredientsGrid.addEventListener('click', (e) => {
-        const btn  = e.target.closest('button[data-action]');
+        const btn = e.target.closest('button[data-action]');
         if (!btn) return;
         const card = btn.closest('.ingredient-card');
         if (!card) return;
@@ -710,27 +739,27 @@ const setupEventListeners = () => {
     });
 
     // Cart
-    DOM.cartToggleBtn.addEventListener('click',  () => toggleCartDrawer(true));
-    DOM.cartCloseBtn.addEventListener('click',   () => toggleCartDrawer(false));
-    DOM.cartBackdrop.addEventListener('click',   () => toggleCartDrawer(false));
+    DOM.cartToggleBtn.addEventListener('click', () => toggleCartDrawer(true));
+    DOM.cartCloseBtn.addEventListener('click', () => toggleCartDrawer(false));
+    DOM.cartBackdrop.addEventListener('click', () => toggleCartDrawer(false));
     DOM.cartItemsContainer.addEventListener('click', (e) => {
         const b = e.target.closest('.btn-remove-item');
         if (!b) return;
         state.cart.splice(parseInt(b.getAttribute('data-index'), 10), 1);
         renderCart();
     });
-    DOM.checkoutBtn.addEventListener('click',  processCheckout);
+    DOM.checkoutBtn.addEventListener('click', processCheckout);
     DOM.closeModalBtn.addEventListener('click', resetAfterCheckout);
 
     // Contact form
     if (DOM.contactSubmitBtn) {
         DOM.contactSubmitBtn.addEventListener('click', () => {
             DOM.contactSuccessMsg.classList.remove('hidden');
-            DOM.contactSubmitBtn.disabled    = true;
+            DOM.contactSubmitBtn.disabled = true;
             DOM.contactSubmitBtn.textContent = 'Messaggio Inviato ✓';
             setTimeout(() => {
                 DOM.contactSuccessMsg.classList.add('hidden');
-                DOM.contactSubmitBtn.disabled    = false;
+                DOM.contactSubmitBtn.disabled = false;
                 DOM.contactSubmitBtn.textContent = 'Invia Messaggio ✉️';
             }, 5000);
         });
@@ -765,3 +794,30 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     navigateTo('home');
 });
+tailwind.config = {
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ["Poppins", "sans-serif"],
+                accent: ["Poppins", "sans-serif"], // Virato su ultra-clean minimal geometrico
+            },
+            colors: {
+                // Rimappatura dei vecchi hook colore dello script JS verso l'estetica premium ad alto contrasto
+                brand: "#000000",          // Nero pieno al posto dell'arancione per pulsanti e scritte principali
+                brandHover: "#27272a",     // Zinc-800 per gli stati hover
+                brandLight: "#f4f4f5",     // Zinc-100 per gli sfondi attivi o hover leggeri
+                brandDark: "#000000",      // Nero assoluto
+            },
+            boxShadow: {
+                "delivery": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+                "card": "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
+                "floating": "0 10px 30px -10px rgba(0,0,0,0.1)",
+            },
+            borderRadius: {
+                "3xl": "0.75rem", // Angoli retti o leggermente arrotondati (Stile Shadcn moderno)
+                "2xl": "0.5rem",
+                "xl": "0.375rem",
+            }
+        }
+    }
+}
