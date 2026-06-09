@@ -280,7 +280,13 @@
                             aria-pressed="false">Gluten Free</button>
                     </div>
 
-                    <div id="ingredients-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4"></div>
+                    <div class="relative">
+                        <input type="search" id="ingredient-search" placeholder="Cerca ingrediente…"
+                            class="w-full border border-zinc-200 bg-zinc-50/30 pl-9 pr-4 py-2.5 text-xs focus:border-zinc-950 focus:outline-none transition-colors">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0Z"/></svg>
+                    </div>
+
+                    <div id="ingredients-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2"></div>
                 </div>
 
                 <aside
@@ -293,22 +299,22 @@
                             kcal</span>
                     </div>
 
-                    <div
-                        class="flex justify-center items-center py-8 bg-white border border-dashed border-zinc-200 rounded-xl min-h-[220px]">
-                        <div id="empty-bowl-placeholder" class="flex flex-col items-center text-center p-4">
-                            <div class="bowl-outer mx-auto mb-3">
-                                <div class="bowl-inner"><span class="text-3xl opacity-20">🥣</span></div>
-                            </div>
-                            <p class="text-xs text-zinc-400 italic">Seleziona componenti per popolare l'anteprima</p>
-                        </div>
 
-                        <div id="bowl-living-content"
-                            class="hidden relative w-full flex flex-col items-center justify-center min-h-[180px]">
-                            <div class="bowl-outer">
-                                <div class="bowl-inner" id="bowl-tags-preview"></div>
-                            </div>
+                    <div id="empty-bowl-placeholder"
+                        class="flex justify-center items-center py-8 bg-white border border-dashed border-zinc-200 rounded-xl min-h-[180px]">
+                        <div class="flex flex-col items-center text-center p-4">
+                            <svg class="w-10 h-10 text-zinc-200 mb-3" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18a9 9 0 0 1-18 0ZM12 3v7M9 7l3-3 3 3"/></svg>
+                            <p class="text-xs text-zinc-400 italic font-light">Seleziona componenti per popolare l'anteprima</p>
                         </div>
                     </div>
+
+                    <!-- Populated: flat ingredient list -->
+                    <div id="bowl-living-content" class="hidden flex-col divide-y divide-zinc-100"></div>
+
+                    <!-- Hidden tag preview (compatibility) -->
+                    <span id="bowl-tags-preview" class="hidden"></span>
+
+                    <div id="macro-bars" class="hidden pt-3 pb-1 border-t border-zinc-100 space-y-2.5"></div>
 
                     <div class="pt-4 border-t border-zinc-100 space-y-4">
                         <div class="flex justify-between items-baseline">
@@ -604,10 +610,10 @@
                             </div>
                             <div>
                                 <p class="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Chiama</p>
-                                <p class="text-xs font-medium text-zinc-950">+39 0000000000</p>
+                                <p class="text-xs font-medium text-zinc-950">+39 02 1234 5678</p>
                             </div>
                         </a>
-                        <a href="https://wa.me/00000000000"
+                        <a href="https://wa.me/390212345678"
                             target="_blank" rel="noopener"
                             class="flex items-center gap-3 border border-zinc-100 hover:border-zinc-950 p-4 transition-all duration-200 group">
                             <div class="w-8 h-8 border border-zinc-200 group-hover:border-zinc-950 group-hover:bg-zinc-950 flex items-center justify-center transition-all duration-200">

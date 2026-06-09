@@ -16,21 +16,21 @@
    ========================================================================== */
 
 const INGREDIENTS_DATA = [
-    { id: 'b1', name: 'Riso Bianco', type: 'base', price: 2.00, cals: 150, icon: '🍚', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&h=300&fit=crop&q=80' },
-    { id: 'b2', name: 'Quinoa', type: 'base', price: 3.00, cals: 120, icon: '🌾', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80' },
-    { id: 'b3', name: 'Riso Integrale', type: 'base', price: 2.50, cals: 130, icon: '🟤', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&h=300&fit=crop&q=80' },
-    { id: 'p1', name: 'Salmone', type: 'protein', price: 5.00, cals: 200, icon: '🐟', isVegan: false, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop&q=80' },
-    { id: 'p2', name: 'Tonno', type: 'protein', price: 6.00, cals: 180, icon: '🥩', isVegan: false, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&h=300&fit=crop&q=80' },
-    { id: 'p3', name: 'Tofu', type: 'protein', price: 4.00, cals: 100, icon: '🟩', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1546069901-d5bfd2cbfb1f?w=400&h=300&fit=crop&q=80' },
-    { id: 't1', name: 'Avocado', type: 'topping', price: 1.50, cals: 80, icon: '🥑', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=300&fit=crop&q=80' },
-    { id: 't2', name: 'Edamame', type: 'topping', price: 1.00, cals: 50, icon: '🫛', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=400&h=300&fit=crop&q=80' },
-    { id: 't3', name: 'Alga Wakame', type: 'topping', price: 1.00, cals: 30, icon: '🌿', isVegan: true, isGlutenFree: false, img: 'https://images.unsplash.com/photo-1547496502-affa22d38842?w=400&h=300&fit=crop&q=80' },
-    { id: 't4', name: 'Cetriolo', type: 'topping', price: 0.80, cals: 15, icon: '🥒', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400&h=300&fit=crop&q=80' },
-    { id: 't5', name: 'Mango', type: 'topping', price: 1.20, cals: 60, icon: '🥭', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=300&fit=crop&q=80' },
-    { id: 't6', name: 'Sesamo Tostato', type: 'topping', price: 0.50, cals: 25, icon: '🌰', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?w=400&h=300&fit=crop&q=80' },
-    { id: 's1', name: 'Teriyaki', type: 'sauce', price: 0.00, cals: 50, icon: '🍯', isVegan: true, isGlutenFree: false, img: 'https://images.unsplash.com/photo-1682482003091-d7d6427041fa?w=400&h=300&fit=crop&q=80' },
-    { id: 's2', name: 'Spicy Mayo', type: 'sauce', price: 0.00, cals: 80, icon: '🌶️', isVegan: false, isGlutenFree: true, img: 'https://media.istockphoto.com/id/1195877732/photo/tasty-burger-sauce-in-bowl-isolated-on-white-background.jpg' },
-    { id: 's3', name: 'Ponzu', type: 'sauce', price: 0.00, cals: 35, icon: '🍋', isVegan: true, isGlutenFree: true, img: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&h=300&fit=crop&q=80' },
+    { id: 'b1', name: 'Riso Bianco',    type: 'base',    price: 2.00, cals: 150, carbs: 33, protein: 2.5, fat: 0.3, icon: '🍚', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&h=300&fit=crop&q=80' },
+    { id: 'b2', name: 'Quinoa',         type: 'base',    price: 3.00, cals: 120, carbs: 21, protein: 4.0, fat: 2.0, icon: '🌾', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80' },
+    { id: 'b3', name: 'Riso Integrale', type: 'base',    price: 2.50, cals: 130, carbs: 27, protein: 3.0, fat: 1.0, icon: '🟤', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&h=300&fit=crop&q=80' },
+    { id: 'p1', name: 'Salmone',        type: 'protein', price: 5.00, cals: 200, carbs:  0, protein:22.0, fat:10.0, icon: '🐟', isVegan: false, isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop&q=80' },
+    { id: 'p2', name: 'Tonno',          type: 'protein', price: 6.00, cals: 180, carbs:  0, protein:28.0, fat: 5.0, icon: '🥩', isVegan: false, isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&h=300&fit=crop&q=80' },
+    { id: 'p3', name: 'Tofu',           type: 'protein', price: 4.00, cals: 100, carbs:  2, protein:10.0, fat: 5.0, icon: '🟩', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1546069901-d5bfd2cbfb1f?w=400&h=300&fit=crop&q=80' },
+    { id: 't1', name: 'Avocado',        type: 'topping', price: 1.50, cals:  80, carbs:  4, protein: 1.0, fat: 8.0, icon: '🥑', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=300&fit=crop&q=80' },
+    { id: 't2', name: 'Edamame',        type: 'topping', price: 1.00, cals:  50, carbs:  4, protein: 5.0, fat: 2.0, icon: '🫛', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=400&h=300&fit=crop&q=80' },
+    { id: 't3', name: 'Alga Wakame',    type: 'topping', price: 1.00, cals:  30, carbs:  3, protein: 2.0, fat: 0.5, icon: '🌿', isVegan: true,  isGlutenFree: false, img: 'https://images.unsplash.com/photo-1547496502-affa22d38842?w=400&h=300&fit=crop&q=80' },
+    { id: 't4', name: 'Cetriolo',       type: 'topping', price: 0.80, cals:  15, carbs:  3, protein: 0.5, fat: 0.1, icon: '🥒', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400&h=300&fit=crop&q=80' },
+    { id: 't5', name: 'Mango',          type: 'topping', price: 1.20, cals:  60, carbs: 15, protein: 0.5, fat: 0.3, icon: '🥭', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=300&fit=crop&q=80' },
+    { id: 't6', name: 'Sesamo Tostato', type: 'topping', price: 0.50, cals:  25, carbs:  1, protein: 1.5, fat: 2.0, icon: '🌰', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?w=400&h=300&fit=crop&q=80' },
+    { id: 's1', name: 'Teriyaki',       type: 'sauce',   price: 0.00, cals:  50, carbs: 11, protein: 0.5, fat: 0.0, icon: '🍯', isVegan: true,  isGlutenFree: false, img: 'https://images.unsplash.com/photo-1682482003091-d7d6427041fa?w=400&h=300&fit=crop&q=80' },
+    { id: 's2', name: 'Spicy Mayo',     type: 'sauce',   price: 0.00, cals:  80, carbs:  1, protein: 0.5, fat: 8.0, icon: '🌶️', isVegan: false, isGlutenFree: true,  img: 'https://media.istockphoto.com/id/1195877732/photo/tasty-burger-sauce-in-bowl-isolated-on-white-background.jpg' },
+    { id: 's3', name: 'Ponzu',          type: 'sauce',   price: 0.00, cals:  35, carbs:  7, protein: 0.5, fat: 0.0, icon: '🍋', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&h=300&fit=crop&q=80' },
 ];
 
 const CATEGORIES_CONFIG = {
@@ -64,6 +64,7 @@ const state = {
     currentBowl: {},
     activeCategory: 'base',
     filters: { vegan: false, glutenFree: false },
+    searchQuery: '',
     mobileMenuOpen: false,
     orderHistory: loadOrderHistory(),
 };
@@ -130,6 +131,8 @@ const cacheDOMElements = () => {
             topping: document.getElementById('status-topping'),
             sauce: document.getElementById('status-sauce'),
         },
+        ingredientSearch: document.getElementById('ingredient-search'),
+        macroBars: document.getElementById('macro-bars'),
         contactSubmitBtn: document.getElementById('contact-submit-btn'),
         contactSuccessMsg: document.getElementById('contact-success-msg'),
         secretAdminLink: document.getElementById('secret-admin-link'),
@@ -382,6 +385,7 @@ const renderConfigurator = () => {
     let items = INGREDIENTS_DATA.filter(i => i.type === state.activeCategory);
     if (state.filters.vegan) items = items.filter(i => i.isVegan);
     if (state.filters.glutenFree) items = items.filter(i => i.isGlutenFree);
+    if (state.searchQuery) items = items.filter(i => i.name.toLowerCase().includes(state.searchQuery.toLowerCase()));
 
     DOM.ingredientsGrid.innerHTML = items.length === 0
         ? `<p class="col-span-2 lg:col-span-3 text-center text-slate-500 font-medium py-10">Nessun ingrediente trovato con i filtri attivi.</p>`
@@ -407,54 +411,107 @@ const renderConfigurator = () => {
     const totals = Object.keys(state.currentBowl).reduce((acc, id) => {
         const it = INGREDIENTS_DATA.find(i => i.id === id);
         const q = state.currentBowl[id];
-        return { price: acc.price + it.price * q, cals: acc.cals + it.cals * q };
-    }, { price: 0, cals: 0 });
-    if (DOM.totalCaloriesBadge) DOM.totalCaloriesBadge.textContent = `${totals.cals} kcal`;
+        return {
+            price:   acc.price   + it.price   * q,
+            cals:    acc.cals    + it.cals    * q,
+            carbs:   acc.carbs   + it.carbs   * q,
+            protein: acc.protein + it.protein * q,
+            fat:     acc.fat     + it.fat     * q,
+        };
+    }, { price: 0, cals: 0, carbs: 0, protein: 0, fat: 0 });
+    if (DOM.totalCaloriesBadge) DOM.totalCaloriesBadge.textContent = `${Math.round(totals.cals)} kcal`;
     if (DOM.currentBowlPrice) DOM.currentBowlPrice.textContent = `${totals.price.toFixed(2)}€`;
+    renderMacroBars(totals);
 
     updateStickyBar();
 };
 
+const renderMacroBars = ({ carbs, protein, fat }) => {
+    if (!DOM.macroBars) return;
+    const total = carbs + protein + fat;
+    if (total === 0) { DOM.macroBars.classList.add('hidden'); return; }
+    DOM.macroBars.classList.remove('hidden');
+    const pct = (v) => Math.round((v / total) * 100);
+    const MacroRow = (label, value, pctVal, color) => `
+        <div class="flex items-center gap-3">
+            <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-zinc-400 w-14 shrink-0">${label}</span>
+            <div class="flex-1 h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+                <div class="h-full ${color} rounded-full transition-all duration-500" style="width:${pctVal}%"></div>
+            </div>
+            <span class="text-[10px] font-mono text-zinc-500 w-10 text-right shrink-0">${value.toFixed(1)}g</span>
+        </div>`;
+    DOM.macroBars.innerHTML =
+        `<p class="text-[9px] font-mono font-bold uppercase tracking-[0.25em] text-zinc-400 mb-1">Macronutrienti</p>` +
+        MacroRow('Carb', carbs, pct(carbs), 'bg-amber-400') +
+        MacroRow('Prot', protein, pct(protein), 'bg-zinc-800') +
+        MacroRow('Grassi', fat, pct(fat), 'bg-zinc-400');
+};
+
+/* ── SVG icons (monochrome, stroke-based) per ogni ingrediente ── */
+const INGREDIENT_ICONS = {
+    b1: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18a9 9 0 0 1-18 0ZM8 14V9a4 4 0 0 1 8 0v5"/>',
+    b2: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-1.5 3-2 6-2 9s.5 6 2 9c1.5-3 2-6 2-9s-.5-6-2-9Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M7 8c1.5 1 3 1.5 5 1.5S16 9 17.5 8M7 16c1.5-1 3-1.5 5-1.5s4.5.5 5.5 1.5"/>',
+    b3: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18a9 9 0 0 1-18 0ZM8 14V9a4 4 0 0 1 8 0v5"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 11h6"/>',
+    p1: '<path stroke-linecap="round" stroke-linejoin="round" d="M21 12c-2-3.5-5.5-6-9-6S4 8.5 2 12c2 3.5 5.5 6 9 6s7-2.5 9-6Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.5 22 12l-2.5 3.5"/>',
+    p2: '<path stroke-linecap="round" stroke-linejoin="round" d="M20 12c-1.5-3-5-5.5-8-5.5S5 9 3.5 12c1.5 3 5 5.5 8 5.5s6.5-2.5 8-5.5Z"/><circle cx="10" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
+    p3: '<rect x="4" y="7" width="16" height="10" rx="1.5" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M10 7v10"/>',
+    t1: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-1 3-4.5 5-4.5 9a4.5 4.5 0 0 0 9 0c0-4-3.5-6-4.5-9Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.5 12.5A2.5 2.5 0 0 0 12 15"/>',
+    t2: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 12c0-4 3-7 7-7s7 3 7 7c0 3-2 5.5-4.5 6.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 15c1-3.5 5-3.5 6 0"/>',
+    t3: '<path stroke-linecap="round" stroke-linejoin="round" d="M17 8C8 10 5.9 16.17 3.82 22"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.23 8C9.23 8 14 8 18 11c4 3 4 7 4 7"/>',
+    t4: '<ellipse cx="12" cy="12" rx="4" ry="9" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8M8 15h8"/>',
+    t5: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-2 3.5-2 7 0 10 2-3 2-6.5 0-10Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 13c-2 3-5 5-5 8h10c0-3-3-5-5-8Z"/>',
+    t6: '<circle cx="9" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="6" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="14" r="1.5" fill="currentColor" stroke="none"/>',
+    s1: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 16a2 2 0 0 0 4 0"/>',
+    s2: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 14c.5-1 1.5-1.5 3-1.5"/>',
+    s3: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><line stroke-linecap="round" x1="9" y1="17" x2="15" y2="17"/>',
+};
+
+const TYPE_LABELS = { base: 'Base', protein: 'Proteina', topping: 'Topping', sauce: 'Salsa' };
+
 const renderLivingBowl = () => {
     if (!DOM.bowlLivingContent) return;
-    
-    // Puliamo il contenitore dalle vecchie generazioni
-    DOM.bowlLivingContent.innerHTML = '';
-    DOM.bowlLivingContent.className = "flex flex-col gap-2 w-full animate-fade-in";
 
-    const items = Object.keys(state.currentBowl).map(id => {
-        return {
-            qty: state.currentBowl[id],
-            data: INGREDIENTS_DATA.find(i => i.id === id)
-        };
-    }).filter(item => item.data !== undefined);
+    const items = Object.keys(state.currentBowl).map(id => ({
+        qty: state.currentBowl[id],
+        data: INGREDIENTS_DATA.find(i => i.id === id),
+    })).filter(item => item.data !== undefined);
 
-    if (items.length === 0) {
-        DOM.emptyBowlPlaceholder.style.display = 'flex';
-        DOM.bowlTagsPreview.textContent = 'Nessun ingrediente selezionato';
-        return;
-    }
-    
-    DOM.emptyBowlPlaceholder.style.display = 'none';
+    const isEmpty = items.length === 0;
+    DOM.emptyBowlPlaceholder.classList.toggle('hidden', !isEmpty);
+    DOM.bowlLivingContent.classList.toggle('hidden', isEmpty);
+    DOM.bowlLivingContent.classList.toggle('flex', !isEmpty);
 
-    // Genera una lista ordinata e geometrica degli ingredienti scelti
-    items.forEach(item => {
-        const row = document.createElement('div');
-        row.className = "flex items-center justify-between p-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs transition-all";
-        row.innerHTML = `
-            <div class="flex items-center gap-3">
-                <span class="text-base">${item.data.icon}</span>
-                <span class="font-medium text-zinc-950">${item.data.name}</span>
+    if (isEmpty) { DOM.bowlLivingContent.innerHTML = ''; return; }
+
+    DOM.bowlLivingContent.innerHTML = items.map(item => {
+        const icon  = INGREDIENT_ICONS[item.data.id] || '';
+        const label = TYPE_LABELS[item.data.type] || item.data.type;
+        const priceStr = item.data.price > 0
+            ? ` · <span class="font-mono">+${(item.data.price * item.qty).toFixed(2)}€</span>`
+            : ` · <span class="font-mono text-zinc-300">Inclusa</span>`;
+        return `
+        <div class="group flex items-center gap-3.5 py-3 first:pt-1 last:pb-1 cursor-default">
+            <div class="w-11 h-11 rounded-xl bg-zinc-100 flex items-center justify-center shrink-0 relative">
+                <svg class="w-5 h-5 text-zinc-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">${icon}</svg>
+                ${item.qty > 1 ? `<span class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-zinc-950 text-white text-[9px] font-bold font-mono flex items-center justify-center leading-none">${item.qty}</span>` : ''}
             </div>
-            <div class="flex items-center gap-4">
-                <span class="text-zinc-400 font-mono">${(item.data.price * item.qty).toFixed(2)}€</span>
-                <span class="bg-zinc-950 text-white font-mono text-[10px] px-2 py-0.5 rounded font-bold">×${item.qty}</span>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-0.5">
+                    <span class="text-sm font-medium text-zinc-900 leading-tight truncate">${item.data.name}</span>
+                    <span class="shrink-0 text-[10px] bg-zinc-100 text-zinc-500 px-2 py-px rounded-full font-medium leading-tight">${label}</span>
+                </div>
+                <p class="text-[11px] text-zinc-400 leading-tight">${item.data.cals * item.qty} kcal${priceStr}</p>
             </div>
-        `;
-        DOM.bowlLivingContent.appendChild(row);
-    });
+            <button type="button"
+                class="btn-remove-ingredient shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-zinc-300 hover:bg-zinc-950 hover:text-white transition-all duration-150 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
+                data-remove-id="${item.data.id}"
+                aria-label="Rimuovi ${item.data.name}">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+            </button>
+        </div>`;
+    }).join('');
 
-    DOM.bowlTagsPreview.textContent = items.map(item => `${item.data.name} (×${item.qty})`).join(' · ');
+    if (DOM.bowlTagsPreview) DOM.bowlTagsPreview.textContent = items.map(i => `${i.data.name} (×${i.qty})`).join(' · ');
 };
 
 const updateStickyBar = () => {
@@ -709,6 +766,25 @@ const setupEventListeners = () => {
         if (!card) return;
         modifyIngredientQty(card.getAttribute('data-id'), btn.getAttribute('data-action'));
     });
+
+    // Ingredient search
+    if (DOM.ingredientSearch) {
+        DOM.ingredientSearch.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value.trim();
+            renderConfigurator();
+        });
+    }
+
+    // Remove ingredient from living bowl (delegation on bowlLivingContent)
+    if (DOM.bowlLivingContent) {
+        DOM.bowlLivingContent.addEventListener('click', (e) => {
+            const btn = e.target.closest('.btn-remove-ingredient');
+            if (!btn) return;
+            const id = btn.getAttribute('data-remove-id');
+            delete state.currentBowl[id];
+            renderConfigurator();
+        });
+    }
 
     // Filters
     DOM.filterVegan.addEventListener('click', function () {
