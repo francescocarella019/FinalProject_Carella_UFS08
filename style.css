@@ -118,3 +118,53 @@
 #famous-poke-grid > div {
     will-change: opacity;
 }
+#famous-poke-grid > div {
+    will-change: opacity;
+}
+
+/* ── Hamburger → X animato via CSS (controllato da aria-expanded) ── */
+.hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 22px;
+    height: 22px;
+}
+.hamburger-bar {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: currentColor;
+    border-radius: 1px;
+    transform-origin: center;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity   0.2s  cubic-bezier(0.4, 0, 0.2, 1);
+}
+#mobile-menu-btn[aria-expanded="true"] .hamburger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+#mobile-menu-btn[aria-expanded="true"] .hamburger-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+#mobile-menu-btn[aria-expanded="true"] .hamburger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile menu slide-down transition */
+#mobile-menu {
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#mobile-menu.hidden {
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    display: flex !important;
+    visibility: hidden;
+}
+#mobile-menu:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}

@@ -11,40 +11,7 @@
 
 'use strict';
 
-/* ==========================================================================
-   1. DATA
-   ========================================================================== */
 
-const INGREDIENTS_DATA = [
-    { id: 'b1', name: 'Riso Bianco',    type: 'base',    price: 2.00, cals: 150, carbs: 33, protein: 2.5, fat: 0.3, icon: '🍚', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&h=300&fit=crop&q=80' },
-    { id: 'b2', name: 'Quinoa',         type: 'base',    price: 3.00, cals: 120, carbs: 21, protein: 4.0, fat: 2.0, icon: '🌾', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop&q=80' },
-    { id: 'b3', name: 'Riso Integrale', type: 'base',    price: 2.50, cals: 130, carbs: 27, protein: 3.0, fat: 1.0, icon: '🟤', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&h=300&fit=crop&q=80' },
-    { id: 'p1', name: 'Salmone',        type: 'protein', price: 5.00, cals: 200, carbs:  0, protein:22.0, fat:10.0, icon: '🐟', isVegan: false, isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop&q=80' },
-    { id: 'p2', name: 'Tonno',          type: 'protein', price: 6.00, cals: 180, carbs:  0, protein:28.0, fat: 5.0, icon: '🥩', isVegan: false, isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=400&h=300&fit=crop&q=80' },
-    { id: 'p3', name: 'Tofu',           type: 'protein', price: 4.00, cals: 100, carbs:  2, protein:10.0, fat: 5.0, icon: '🟩', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1546069901-d5bfd2cbfb1f?w=400&h=300&fit=crop&q=80' },
-    { id: 't1', name: 'Avocado',        type: 'topping', price: 1.50, cals:  80, carbs:  4, protein: 1.0, fat: 8.0, icon: '🥑', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&h=300&fit=crop&q=80' },
-    { id: 't2', name: 'Edamame',        type: 'topping', price: 1.00, cals:  50, carbs:  4, protein: 5.0, fat: 2.0, icon: '🫛', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=400&h=300&fit=crop&q=80' },
-    { id: 't3', name: 'Alga Wakame',    type: 'topping', price: 1.00, cals:  30, carbs:  3, protein: 2.0, fat: 0.5, icon: '🌿', isVegan: true,  isGlutenFree: false, img: 'https://images.unsplash.com/photo-1547496502-affa22d38842?w=400&h=300&fit=crop&q=80' },
-    { id: 't4', name: 'Cetriolo',       type: 'topping', price: 0.80, cals:  15, carbs:  3, protein: 0.5, fat: 0.1, icon: '🥒', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400&h=300&fit=crop&q=80' },
-    { id: 't5', name: 'Mango',          type: 'topping', price: 1.20, cals:  60, carbs: 15, protein: 0.5, fat: 0.3, icon: '🥭', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=300&fit=crop&q=80' },
-    { id: 't6', name: 'Sesamo Tostato', type: 'topping', price: 0.50, cals:  25, carbs:  1, protein: 1.5, fat: 2.0, icon: '🌰', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?w=400&h=300&fit=crop&q=80' },
-    { id: 's1', name: 'Teriyaki',       type: 'sauce',   price: 0.00, cals:  50, carbs: 11, protein: 0.5, fat: 0.0, icon: '🍯', isVegan: true,  isGlutenFree: false, img: 'https://images.unsplash.com/photo-1682482003091-d7d6427041fa?w=400&h=300&fit=crop&q=80' },
-    { id: 's2', name: 'Spicy Mayo',     type: 'sauce',   price: 0.00, cals:  80, carbs:  1, protein: 0.5, fat: 8.0, icon: '🌶️', isVegan: false, isGlutenFree: true,  img: 'https://media.istockphoto.com/id/1195877732/photo/tasty-burger-sauce-in-bowl-isolated-on-white-background.jpg' },
-    { id: 's3', name: 'Ponzu',          type: 'sauce',   price: 0.00, cals:  35, carbs:  7, protein: 0.5, fat: 0.0, icon: '🍋', isVegan: true,  isGlutenFree: true,  img: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&h=300&fit=crop&q=80' },
-];
-
-const CATEGORIES_CONFIG = {
-    base: { label: 'Base', instruction: 'Scegli la tua Base (Max 1)', max: 1, min: 1, step: 1 },
-    protein: { label: 'Proteine', instruction: 'Aggiungi le tue Proteine (Fino a 2)', max: 2, min: 1, step: 2 },
-    topping: { label: 'Topping', instruction: 'Arricchisci con i Topping (Fino a 3)', max: 3, min: 0, step: 3 },
-    sauce: { label: 'Salse', instruction: 'Completa con le Salse (Fino a 2)', max: 2, min: 0, step: 4 },
-};
-
-const PRESETS_DATA = [
-    { name: 'La Vaporiera', description: 'Il grande classico. Riso, salmone, avocado e salsa teriyaki.', items: { b1: 1, p1: 1, t1: 1, s1: 1 }, price: '8.50€', cals: '480 kcal', tag: 'Bestseller', tagColor: 'bg-amber-400 text-amber-900', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop&q=80' },
-    { name: 'Il Prato', description: 'Quinoa, tofu, edamame e teriyaki. 100% plant-based.', items: { b2: 1, p3: 1, t2: 1, s1: 1 }, price: '8.00€', cals: '320 kcal', tag: 'Vegan', tagColor: 'bg-emerald-400 text-emerald-900', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&q=80' },
-    { name: 'La Bomba', description: 'Riso bianco, tonno, alga wakame e spicy mayo per i coraggiosi.', items: { b1: 1, p2: 1, t3: 1, s2: 1 }, price: '9.00€', cals: '460 kcal', tag: 'Piccante', tagColor: 'bg-red-400 text-red-900', img: 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&h=400&fit=crop&q=80' },
-];
 
 
 /* ==========================================================================
@@ -86,11 +53,10 @@ const cacheDOMElements = () => {
             about: document.getElementById('page-about'),
             contact: document.getElementById('page-contact'),
             dashboard: document.getElementById('page-dashboard'),
-        },
+                },
         logoLink: document.getElementById('logo-link'),
         mobileMenuBtn: document.getElementById('mobile-menu-btn'),
         mobileMenu: document.getElementById('mobile-menu'),
-        hamburgerIcon: document.getElementById('hamburger-icon'),
         presetsContainer: document.getElementById('presets-container'),
         presetsContainerMobile: document.getElementById('presets-container-mobile'),
         famousPokGrid: document.getElementById('famous-poke-grid'),
@@ -162,7 +128,7 @@ const initAnimations = () => {
         lottieCheckout = lottie.loadAnimation({
             container: DOM.lottieCheckoutContainer,
             renderer: 'svg', loop: false, autoplay: false,
-            path: 'Add_to_cart.json',
+            path: 'assets/lottie/add_to_cart.json',
         });
     }
 };
@@ -201,13 +167,11 @@ const closeMobileMenu = () => {
     state.mobileMenuOpen = false;
     DOM.mobileMenu.classList.add('hidden');
     DOM.mobileMenuBtn.setAttribute('aria-expanded', 'false');
-    DOM.hamburgerIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>';
 };
 const openMobileMenu = () => {
     state.mobileMenuOpen = true;
     DOM.mobileMenu.classList.remove('hidden');
     DOM.mobileMenuBtn.setAttribute('aria-expanded', 'true');
-    DOM.hamburgerIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"/>';
 };
 
 
@@ -870,30 +834,3 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     navigateTo('home');
 });
-tailwind.config = {
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ["Poppins", "sans-serif"],
-                accent: ["Poppins", "sans-serif"], // Virato su ultra-clean minimal geometrico
-            },
-            colors: {
-                // Rimappatura dei vecchi hook colore dello script JS verso l'estetica premium ad alto contrasto
-                brand: "#000000",          // Nero pieno al posto dell'arancione per pulsanti e scritte principali
-                brandHover: "#27272a",     // Zinc-800 per gli stati hover
-                brandLight: "#f4f4f5",     // Zinc-100 per gli sfondi attivi o hover leggeri
-                brandDark: "#000000",      // Nero assoluto
-            },
-            boxShadow: {
-                "delivery": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-                "card": "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
-                "floating": "0 10px 30px -10px rgba(0,0,0,0.1)",
-            },
-            borderRadius: {
-                "3xl": "0.75rem", // Angoli retti o leggermente arrotondati (Stile Shadcn moderno)
-                "2xl": "0.5rem",
-                "xl": "0.375rem",
-            }
-        }
-    }
-}

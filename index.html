@@ -34,11 +34,13 @@
     </script>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="assets/js/constants.js" defer></script>
     <script src="script.js" defer></script>
 </head>
 
 <body class="bg-white text-zinc-950 font-sans antialiased overflow-x-hidden selection:bg-zinc-950 selection:text-white">
 
+    <header role="banner">
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-100 h-[64px] flex items-center"
         aria-label="Navigazione principale">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full flex justify-between items-center">
@@ -87,10 +89,11 @@
                 <button type="button" id="mobile-menu-btn"
                     class="md:hidden p-1.5 text-zinc-900 hover:bg-zinc-50 focus:outline-none rounded transition-colors"
                     aria-label="Apri menu" aria-expanded="false" aria-controls="mobile-menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                    <span class="hamburger-icon" aria-hidden="true">
+                        <span class="hamburger-bar"></span>
+                        <span class="hamburger-bar"></span>
+                        <span class="hamburger-bar"></span>
+                    </span>
                 </button>
             </div>
         </div>
@@ -115,22 +118,8 @@
             </div>
         </div>
     </nav>
-    <div id="mobile-menu" class="hidden absolute top-[64px] left-0 w-full bg-white border-b border-zinc-100 px-6 py-6 flex flex-col gap-2 shadow-xl z-50 transition-all duration-200" role="menu" aria-label="Menu mobile">
-    <button data-page="home"         class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Home</button>
-    <button data-page="configurator" class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Configuratore</button>
-    <button data-page="about"        class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Chi Siamo</button>
-    <button data-page="contact"      class="nav-link text-left py-2.5 text-xs tracking-wider uppercase font-medium text-zinc-600 hover:text-zinc-950 border-b border-zinc-50">Contatti</button>
-    
-    <div class="pt-4">
-        <p class="text-[9px] uppercase tracking-widest text-zinc-400 mb-2 font-mono font-bold">Filtra Ricette:</p>
-        <div id="presets-container-mobile" class="flex flex-wrap gap-1.5">
-            <button type="button" data-filter-tag="all" class="navbar-preset-btn active border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Tutti</button>
-            <button type="button" data-filter-tag="Bestseller" class="navbar-preset-btn border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Bestseller</button>
-            <button type="button" data-filter-tag="Vegan" class="navbar-preset-btn border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Vegan</button>
-            <button type="button" data-filter-tag="Piccante" class="navbar-preset-btn border border-zinc-200 text-[10px] font-medium tracking-wide px-3 py-1 rounded-md transition-all hover:border-zinc-950">Piccante</button>
-        </div>
-    </div>
-</div>
+    </header>
+
     <div id="cart-backdrop"
         class="fixed inset-0 bg-zinc-950/20 backdrop-blur-xs z-[998] opacity-0 pointer-events-none transition-opacity duration-300"
         aria-hidden="true"></div>
@@ -154,6 +143,8 @@
                 disabled>Invia Ordine al Laboratorio</button>
         </div>
     </aside>
+
+    <main id="main-content">
 
     <div id="page-home" class="page-section">
         <section class="relative bg-white min-h-[80vh] flex items-center border-b border-zinc-100 overflow-hidden">
@@ -254,19 +245,19 @@
                     </div>
 
                     <div class="flex gap-1 overflow-x-auto border-b border-zinc-100 pb-px hide-scrollbar"
-                        role="tablist">
-                        <button id="tab-base"
+                        role="tablist" aria-label="Step del configuratore">
+                        <button id="tab-base" role="tab" aria-selected="true" aria-controls="ingredients-grid"
                             class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Base
-                            <span id="status-base" class="step-status"></span></button>
-                        <button id="tab-protein"
+                            <span id="status-base" class="step-status" aria-hidden="true"></span></button>
+                        <button id="tab-protein" role="tab" aria-selected="false" aria-controls="ingredients-grid"
                             class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Proteine
-                            <span id="status-protein" class="step-status"></span></button>
-                        <button id="tab-topping"
+                            <span id="status-protein" class="step-status" aria-hidden="true"></span></button>
+                        <button id="tab-topping" role="tab" aria-selected="false" aria-controls="ingredients-grid"
                             class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Topping
-                            <span id="status-topping" class="step-status"></span></button>
-                        <button id="tab-sauce"
+                            <span id="status-topping" class="step-status" aria-hidden="true"></span></button>
+                        <button id="tab-sauce" role="tab" aria-selected="false" aria-controls="ingredients-grid"
                             class="tab-link relative pb-3 px-4 text-xs font-medium tracking-wider uppercase text-zinc-400 border-b-2 border-transparent transition-all hover:text-zinc-950 flex items-center gap-1.5">Salse
-                            <span id="status-sauce" class="step-status"></span></button>
+                            <span id="status-sauce" class="step-status" aria-hidden="true"></span></button>
                     </div>
 
                     <div class="flex flex-wrap gap-2 items-center pt-2">
@@ -286,7 +277,8 @@
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0Z"/></svg>
                     </div>
 
-                    <div id="ingredients-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2"></div>
+                    <div id="ingredients-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2"
+                        role="tabpanel" aria-live="polite"></div>
                 </div>
 
                 <aside
@@ -522,20 +514,20 @@
                     <p class="text-[10px] font-mono font-bold uppercase tracking-widest text-zinc-400 mb-8">Scrivi al laboratorio</p>
                     <form class="space-y-5" onsubmit="event.preventDefault();">
                         <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Nominativo</label>
-                            <input type="text"
+                                                        <label for="contact-name" class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Nominativo</label>
+                            <input type="text" id="contact-name" name="name" autocomplete="name"
                                 class="w-full border border-zinc-200 p-3 text-xs focus:border-zinc-950 focus:outline-none transition-colors bg-zinc-50/30"
                                 placeholder="Es. Alessandro Rossi" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Indirizzo Email</label>
-                            <input type="email"
+                            <label for="contact-email" class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Indirizzo Email</label>
+                            <input type="email" id="contact-email" name="email" autocomplete="email"
                                 class="w-full border border-zinc-200 p-3 text-xs focus:border-zinc-950 focus:outline-none transition-colors bg-zinc-50/30"
                                 placeholder="alessandro@esempio.com" required>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Dettaglio Richiesta</label>
-                            <textarea
+                                                        <label for="contact-message" class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 font-mono mb-1.5">Dettaglio Richiesta</label>
+                            <textarea id="contact-message" name="message"
                                 class="w-full border border-zinc-200 p-3 text-xs focus:border-zinc-950 focus:outline-none transition-colors bg-zinc-50/30 h-32 resize-none"
                                 placeholder="Descrivi le tue esigenze al nostro staff..." required></textarea>
                         </div>
@@ -674,6 +666,7 @@
             </div>
         </section>
     </div>
+    </main>
 
     <footer class="border-t border-zinc-100 bg-white">
         <!-- Griglia 4 colonne -->
