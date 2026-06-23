@@ -1,12 +1,7 @@
-/* ==========================================================================
-   GASTROLAB — Premium Minimal Fogli di Stile Custom (Shadcn Style)
-   ========================================================================== */
 
-/* Nasconde le barre di scorrimento nativa mantenendo la funzionalità */
 .hide-scrollbar { scrollbar-width: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 
-/* Transizione fluida di comparsa per il routing single-page SPA */
 .page-section {
     animation: pageFadeIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -15,7 +10,6 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Ganci di Classe Attiva Iniettati Dinamicamente dallo script.js */
 .nav-link.active {
     color: #000000 !important;
     background-color: #f4f4f5 !important;
@@ -28,7 +22,6 @@
     color: #000000 !important;
 }
 
-/* Badge di Controllo Step Obbligatori (Classe .step-status) */
 .step-status {
     display: inline-flex;
     align-items: center;
@@ -38,7 +31,7 @@
     width: 0;
     height: 16px;
     border-radius: 9999px;
-    background-color: #10b981; /* Verde smeraldo in stato completato */
+    background-color: #10b981; 
     color: #ffffff;
     opacity: 0;
     transform: scale(0.8);
@@ -51,14 +44,12 @@
     margin-left: 4px;
 }
 
-/* Pulsanti Filtro Dieta in Stato Attivo */
 .filter-btn[aria-pressed="true"] {
     background-color: #000000 !important;
     border-color: #000000 !important;
     color: #ffffff !important;
 }
 
-/* Struttura Core di Rendering Visuale del Poke Bowl Interno */
 .bowl-outer {
     width: 150px;
     height: 150px;
@@ -85,7 +76,6 @@
     justify-content: center;
 }
 
-/* Micro-chip grafici degli ingredienti che cadono nella ciotola */
 .living-chip {
     position: absolute;
     width: 36px;
@@ -104,9 +94,7 @@
     100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-/* ==========================================================================
-   Stato Attivo per i Pulsanti Filtro Geometrici in Navbar (Shadcn Minimal)
-   ========================================================================== */
+
 .navbar-preset-btn.active {
     background-color: #000000 !important;
     border-color: #000000 !important;
@@ -114,7 +102,6 @@
     font-weight: 500;
 }
 
-/* Transizione fluida durante le operazioni di filtraggio in Home */
 #famous-poke-grid > div {
     will-change: opacity;
 }
@@ -122,7 +109,6 @@
     will-change: opacity;
 }
 
-/* ── Hamburger → X animato via CSS (controllato da aria-expanded) ── */
 .hamburger-icon {
     display: flex;
     flex-direction: column;
@@ -152,7 +138,6 @@
     transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Mobile menu slide-down transition */
 #mobile-menu {
     transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }

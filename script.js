@@ -1,22 +1,11 @@
-/**
- * GastroLab — SPA Engine v3
- * ─────────────────────────────────────────────────────────────────────────────
- * Fix #1  – autoAdvance topping: trigger scatta su newCatCount >= max
- * (funziona per max=1, max=2, max=3 — incluso topping min=0)
- * Fix #2  – loadPreset: imposta activeCategory='sauce' + chiama renderConfigurator
- * → isBowlValid()=true → computeProgressBar() → 100% verde immediato
- * NEW     – state.orderHistory + localStorage, dashboard admin, footer link segreto
- * ─────────────────────────────────────────────────────────────────────────────
- */
+
 
 'use strict';
 
 
 
 
-/* ==========================================================================
-   2. STATE
-   ========================================================================== */
+
 
 const loadOrderHistory = () => {
     try { const r = localStorage.getItem('gl_orders'); return r ? JSON.parse(r) : []; } catch { return []; }
@@ -37,9 +26,6 @@ const state = {
 };
 
 
-/* ==========================================================================
-   3. DOM CACHE
-   ========================================================================== */
 
 let DOM = {};
 let lottieFeedback = null;
@@ -112,9 +98,6 @@ const cacheDOMElements = () => {
 };
 
 
-/* ==========================================================================
-   4. ANIMATIONS
-   ========================================================================== */
 
 const initAnimations = () => {
     if (DOM.lottieFeedbackContainer) {
@@ -141,17 +124,12 @@ const triggerFeedbackBurst = () => {
 };
 
 
-/* ==========================================================================
-   5. SPA ROUTER
-   ========================================================================== */
-
 const navigateTo = (page) => {
     if (!DOM.pages[page]) return;
     state.currentPage = page;
 
     Object.keys(DOM.pages).forEach(k => DOM.pages[k].classList.toggle('hidden', k !== page));
 
-    // Aggiorna active state sui link di nav pubblici (non la dashboard)
     document.querySelectorAll('.nav-link[data-page]').forEach(el => {
         el.classList.toggle('active', el.getAttribute('data-page') === page);
     });
@@ -175,9 +153,6 @@ const openMobileMenu = () => {
 };
 
 
-/* ==========================================================================
-   6. TEMPLATE COMPONENTS
-   ========================================================================== */
 
 const IngredientSelectorCard = (item, qty, maxReached) => {
     const sel = qty > 0;
@@ -237,7 +212,6 @@ const FamousPokeCard = (p) => `
         </div>
     </div>`;
 
-// Cambiate le classi grafiche esclusivamente in questo componente (Stile Shadcn Minimal Geometrico)
 const PresetChip = (p) => `
     <button type="button" class="btn-preset bg-white hover:bg-zinc-100 border border-zinc-200 hover:border-black text-zinc-900 px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-150 whitespace-nowrap shadow-sm cursor-pointer" data-preset='${JSON.stringify(p.items)}'>${p.name}</button>`;
 
@@ -304,9 +278,6 @@ const OrderHistoryCard = (order, orderNumber) => {
 };
 
 
-/* ==========================================================================
-   7. CONFIGURATOR
-   ========================================================================== */
 
 const getCatCount = (cat) =>
     Object.keys(state.currentBowl).reduce((acc, id) => {
@@ -317,11 +288,6 @@ const getCatCount = (cat) =>
 const isBowlValid = () =>
     Object.keys(CATEGORIES_CONFIG).every(c => getCatCount(c) >= CATEGORIES_CONFIG[c].min);
 
-/**
- * computeProgressBar
- * ─ Se il bowl soddisfa tutti i minimi → 100% verde (indipendente dalla tab attiva)
- * ─ Altrimenti → percentuale lineare dello step corrente
- */
 const computeProgressBar = () => {
     const seq = Object.keys(CATEGORIES_CONFIG);
     const idx = seq.indexOf(state.activeCategory);
@@ -344,11 +310,9 @@ const renderConfigurator = () => {
     const seq = Object.keys(CATEGORIES_CONFIG);
     const idx = seq.indexOf(state.activeCategory);
 
-    // Instruction + counter
     if (DOM.categoryInstruction) DOM.categoryInstruction.textContent = cfg.instruction;
     if (DOM.stepCounter) DOM.stepCounter.textContent = `${idx + 1} / ${seq.length}`;
 
-    // Grid
     let items = INGREDIENTS_DATA.filter(i => i.type === state.activeCategory);
     if (state.filters.vegan) items = items.filter(i => i.isVegan);
     if (state.filters.glutenFree) items = items.filter(i => i.isGlutenFree);
@@ -358,7 +322,6 @@ const renderConfigurator = () => {
         ? `<p class="col-span-2 lg:col-span-3 text-center text-slate-500 font-medium py-10">Nessun ingrediente trovato con i filtri attivi.</p>`
         : items.map(i => IngredientSelectorCard(i, state.currentBowl[i.id] || 0, maxed)).join('');
 
-    // Tabs + badges
     seq.forEach(cat => {
         const c = getCatCount(cat);
         if (DOM.tabs[cat]) DOM.tabs[cat].classList.toggle('active', cat === state.activeCategory);
@@ -369,11 +332,9 @@ const renderConfigurator = () => {
         }
     });
 
-    // ── FIX #2: progress bar usa isBowlValid() senza condizionare sulla tab attiva ──
     const { pct, cls } = computeProgressBar();
     if (DOM.progressBar) { DOM.progressBar.style.width = `${pct}%`; DOM.progressBar.className = cls; }
 
-    // Living bowl + totals
     renderLivingBowl();
     const totals = Object.keys(state.currentBowl).reduce((acc, id) => {
         const it = INGREDIENTS_DATA.find(i => i.id === id);
@@ -414,7 +375,6 @@ const renderMacroBars = ({ carbs, protein, fat }) => {
         MacroRow('Grassi', fat, pct(fat), 'bg-zinc-400');
 };
 
-/* ── SVG icons (monochrome, stroke-based) per ogni ingrediente ── */
 
 
 const TYPE_LABELS = { base: 'Base', protein: 'Proteina', topping: 'Topping', sauce: 'Salsa' };
@@ -485,32 +445,20 @@ const updateStickyBar = () => {
     }
 };
 
-/**
- * modifyIngredientQty — FIX #1
- * ─────────────────────────────────────────────────────────────────────────
- * Leggiamo catCount PRIMA di aggiornare lo stato.
- * Dopo l'aggiornamento, newCatCount = catCount + 1.
- * Se newCatCount >= cfg.max → autoAdvance (scatta per max=1, 2, 3 e per
- * qualsiasi categoria, incluso topping che ha min=0).
- *
- * Il vecchio controllo "catConfig.min > 0" escludeva topping e sauce
- * perché hanno min=0. Rimosso intenzionalmente.
- */
+
 const modifyIngredientQty = (id, action) => {
     const it = INGREDIENTS_DATA.find(i => i.id === id);
     if (!it) return;
     const qty = state.currentBowl[id] || 0;
     const cfg = CATEGORIES_CONFIG[it.type];
-    const catCount = getCatCount(it.type);  // conta PRIMA dell'aggiornamento
+    const catCount = getCatCount(it.type);  
 
     if (action === 'add' || action === 'increase') {
         if (catCount < cfg.max) {
             state.currentBowl[id] = qty + 1;
             triggerFeedbackBurst();
             const newCount = catCount + 1;
-            // FIX #1: autoAdvance scatta quando la categoria raggiunge il max.
-            // Guardia: avanziamo solo se siamo già visualizzando questa categoria
-            // (evita avanzamenti inattesi navigando da un'altra tab).
+            
             if (newCount >= cfg.max && state.activeCategory === it.type) {
                 setTimeout(autoAdvanceCategory, 420);
             }
@@ -532,30 +480,16 @@ const autoAdvanceCategory = () => {
     }
 };
 
-/**
- * loadPreset — FIX #2
- * ─────────────────────────────────────────────────────────────────────────
- * Imposta activeCategory su 'sauce' (ultimo step) PRIMA di chiamare
- * renderConfigurator. In questo modo:
- * · isBowlValid() = true (preset include base + protein, min soddisfatti)
- * · computeProgressBar() → pct=100, cls=emerald
- * · La barra diventa verde 100% immediatamente, senza ulteriori interazioni.
- */
+
 const loadPreset = (items) => {
     state.currentBowl = { ...items };
-    // FIX #2: impostiamo 'sauce' (ultimo step) PRIMA della navigazione.
-    // Così quando navigateTo → renderConfigurator viene chiamato,
-    // isBowlValid()=true → computeProgressBar() → 100% verde immediato.
+   
     state.activeCategory = 'sauce';
-    navigateTo('configurator');  // internamente chiama renderConfigurator()
+    navigateTo('configurator');  
     triggerFeedbackBurst();
-    // NON richiamiamo renderConfigurator() di nuovo: navigateTo lo fa già.
 };
 
 
-/* ==========================================================================
-   8. CART
-   ========================================================================== */
 
 const toggleCartDrawer = (open) => {
     const o = typeof open === 'boolean' ? open : DOM.cartDrawer.classList.contains('translate-x-full');
@@ -605,7 +539,6 @@ const processCheckout = () => {
     if (lottieCheckout) lottieCheckout.goToAndPlay(0, true);
 };
 
-/** resetAfterCheckout: salva l'ordine PRIMA di resettare lo stato */
 const resetAfterCheckout = () => {
     if (state.cart.length > 0) {
         const total = state.cart.reduce((sum, bowl) =>
@@ -635,9 +568,6 @@ const resetAfterCheckout = () => {
 };
 
 
-/* ==========================================================================
-   9. DASHBOARD
-   ========================================================================== */
 
 const renderDashboard = () => {
     const orders = state.orderHistory;
@@ -662,7 +592,6 @@ const renderDashboard = () => {
         return;
     }
 
-    // Più recente prima
     DOM.dashboardOrdersList.innerHTML =
         [...orders].reverse().map((o, revIdx) =>
             OrderHistoryCard(o, orders.length - revIdx)
@@ -677,9 +606,6 @@ const clearOrderHistory = () => {
 };
 
 
-/* ==========================================================================
-   10. HOME
-   ========================================================================== */
 
 const renderHomePage = () => {
     if (DOM.famousPokGrid) DOM.famousPokGrid.innerHTML = PRESETS_DATA.map(FamousPokeCard).join('');
@@ -689,13 +615,9 @@ const renderHomePage = () => {
 };
 
 
-/* ==========================================================================
-   11. EVENT LISTENERS
-   ========================================================================== */
 
 const setupEventListeners = () => {
 
-    // SPA navigation (data-page anywhere)
     document.addEventListener('click', (e) => {
         const link = e.target.closest('[data-page]');
         if (link) { e.preventDefault(); navigateTo(link.getAttribute('data-page')); }
@@ -704,12 +626,10 @@ const setupEventListeners = () => {
     DOM.logoLink.addEventListener('click', (e) => { e.preventDefault(); navigateTo('home'); });
     DOM.mobileMenuBtn.addEventListener('click', () => state.mobileMenuOpen ? closeMobileMenu() : openMobileMenu());
 
-    // Tabs
     Object.keys(DOM.tabs).forEach(cat =>
         DOM.tabs[cat].addEventListener('click', () => { state.activeCategory = cat; renderConfigurator(); })
     );
 
-    // Ingredient grid (delegation)
     DOM.ingredientsGrid.addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
@@ -718,7 +638,6 @@ const setupEventListeners = () => {
         modifyIngredientQty(card.getAttribute('data-id'), btn.getAttribute('data-action'));
     });
 
-    // Ingredient search
     if (DOM.ingredientSearch) {
         DOM.ingredientSearch.addEventListener('input', (e) => {
             state.searchQuery = e.target.value.trim();
@@ -726,7 +645,6 @@ const setupEventListeners = () => {
         });
     }
 
-    // Remove ingredient from living bowl (delegation on bowlLivingContent)
     if (DOM.bowlLivingContent) {
         DOM.bowlLivingContent.addEventListener('click', (e) => {
             const btn = e.target.closest('.btn-remove-ingredient');
@@ -737,7 +655,6 @@ const setupEventListeners = () => {
         });
     }
 
-    // Filters
     DOM.filterVegan.addEventListener('click', function () {
         const was = this.getAttribute('aria-pressed') === 'true';
         this.setAttribute('aria-pressed', String(!was));
@@ -751,7 +668,6 @@ const setupEventListeners = () => {
         renderConfigurator();
     });
 
-    // Preset chips (navbar)
     const handlePreset = (e) => {
         const b = e.target.closest('.btn-preset');
         if (b) loadPreset(JSON.parse(b.getAttribute('data-preset')));
@@ -759,13 +675,11 @@ const setupEventListeners = () => {
     DOM.presetsContainer.addEventListener('click', handlePreset);
     DOM.presetsContainerMobile.addEventListener('click', handlePreset);
 
-    // Famous poke grid
     DOM.famousPokGrid.addEventListener('click', (e) => {
         const b = e.target.closest('.btn-load-preset');
         if (b) loadPreset(JSON.parse(b.getAttribute('data-preset')));
     });
 
-    // Cart
     DOM.cartToggleBtn.addEventListener('click', () => toggleCartDrawer(true));
     DOM.cartCloseBtn.addEventListener('click', () => toggleCartDrawer(false));
     DOM.cartBackdrop.addEventListener('click', () => toggleCartDrawer(false));
@@ -778,7 +692,6 @@ const setupEventListeners = () => {
     DOM.checkoutBtn.addEventListener('click', processCheckout);
     DOM.closeModalBtn.addEventListener('click', resetAfterCheckout);
 
-    // Contact form
     if (DOM.contactSubmitBtn) {
         DOM.contactSubmitBtn.addEventListener('click', () => {
             DOM.contactSuccessMsg.classList.remove('hidden');
@@ -792,13 +705,10 @@ const setupEventListeners = () => {
         });
     }
 
-    // Secret admin link
     DOM.secretAdminLink?.addEventListener('click', () => navigateTo('dashboard'));
 
-    // Dashboard: clear history
     DOM.clearHistoryBtn?.addEventListener('click', clearOrderHistory);
 
-    // Escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             if (!DOM.cartDrawer.classList.contains('translate-x-full')) toggleCartDrawer(false);
@@ -808,9 +718,6 @@ const setupEventListeners = () => {
 };
 
 
-/* ==========================================================================
-   12. INIT
-   ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     cacheDOMElements();
