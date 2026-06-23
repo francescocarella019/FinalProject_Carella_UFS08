@@ -196,28 +196,29 @@
                         ogni elemento.</p>
                 </div>
 
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-4 mb-8 border-b border-zinc-100 hide-scrollbar"
-                    role="group" aria-label="Filtra ricette">
-                    <span
-                        class="text-[9px] uppercase font-bold tracking-widest text-zinc-400 font-mono mr-3 shrink-0">Filtra
-                        Ricette:</span>
-                    <button type="button" data-filter-tag="all"
-                        class="preset-filter-btn active px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
-                        Tutti
-                    </button>
-                    <button type="button" data-filter-tag="Bestseller"
-                        class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
-                        Bestseller
-                    </button>
-                    <button type="button" data-filter-tag="Vegan"
-                        class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
-                        Vegan
-                    </button>
-                    <button type="button" data-filter-tag="Piccante"
-                        class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
-                        Piccante
-                    </button>
-                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 pb-4 mb-8 border-b border-zinc-100"
+    role="group" aria-label="Filtra ricette">
+    <span
+        class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 font-mono">Filtra Ricette:</span>
+    <div class="flex flex-wrap gap-1.5">
+        <button type="button" data-filter-tag="all"
+            class="preset-filter-btn active px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+            Tutti
+        </button>
+        <button type="button" data-filter-tag="Bestseller"
+            class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+            Bestseller
+        </button>
+        <button type="button" data-filter-tag="Vegan"
+            class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+            Vegan
+        </button>
+        <button type="button" data-filter-tag="Piccante"
+            class="preset-filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950 whitespace-nowrap">
+            Piccante
+        </button>
+    </div>
+</div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="famous-poke-grid"></div>
             </div>
@@ -260,16 +261,17 @@
                             <span id="status-sauce" class="step-status" aria-hidden="true"></span></button>
                     </div>
 
-                    <div class="flex flex-wrap gap-2 items-center pt-2">
-                        <span
-                            class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 mr-2 font-mono">Restrizioni:</span>
-                        <button type="button" id="filter-vegan"
-                            class="filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950"
-                            aria-pressed="false">Vegan</button>
-                        <button type="button" id="filter-gf"
-                            class="filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950"
-                            aria-pressed="false">Gluten Free</button>
-                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 pt-2">
+    <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 font-mono">Restrizioni:</span>
+    <div class="flex flex-wrap gap-2">
+        <button type="button" id="filter-vegan"
+            class="filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950"
+            aria-pressed="false">Vegan</button>
+        <button type="button" id="filter-gf"
+            class="filter-btn px-4 py-1.5 border border-zinc-200 text-xs font-medium tracking-wide rounded-lg transition-all hover:border-zinc-950"
+            aria-pressed="false">Gluten Free</button>
+    </div>
+</div>
 
                     <div class="relative">
                         <input type="search" id="ingredient-search" placeholder="Cerca ingrediente…"
@@ -277,10 +279,8 @@
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0Z"/></svg>
                     </div>
 
-                    <div id="ingredients-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2"
-                        role="tabpanel" aria-live="polite"></div>
+                    <div id="ingredients-grid" class="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4 pt-2" role="tabpanel" aria-live="polite"></div>
                 </div>
-
                 <aside
                     class="lg:col-span-5 lg:sticky lg:top-24 border border-zinc-200/60 p-6 bg-zinc-50/40 rounded-2xl space-y-6">
                     <div class="flex justify-between items-center pb-4 border-b border-zinc-100">

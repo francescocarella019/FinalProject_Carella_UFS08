@@ -30,3 +30,21 @@ const PRESETS_DATA = [
     { name: 'Il Prato',     description: 'Quinoa, tofu, edamame e teriyaki. 100% plant-based.',                        items: { b2: 1, p3: 1, t2: 1, s1: 1 }, price: '8.00€', cals: '320 kcal', tag: 'Vegan',      tagColor: 'bg-emerald-400 text-emerald-900', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&q=80' },
     { name: 'La Bomba',     description: 'Riso bianco, tonno, alga wakame e spicy mayo per i coraggiosi.',             items: { b1: 1, p2: 1, t3: 1, s2: 1 }, price: '9.00€', cals: '460 kcal', tag: 'Piccante',   tagColor: 'bg-red-400 text-red-900',         img: 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&h=400&fit=crop&q=80' },
 ];
+
+const INGREDIENT_ICONS = {
+    b1: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18a9 9 0 0 1-18 0ZM8 14V9a4 4 0 0 1 8 0v5"/>',
+    b2: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-1.5 3-2 6-2 9s.5 6 2 9c1.5-3 2-6 2-9s-.5-6-2-9Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M7 8c1.5 1 3 1.5 5 1.5S16 9 17.5 8M7 16c1.5-1 3-1.5 5-1.5s4.5.5 5.5 1.5"/>',
+    b3: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18a9 9 0 0 1-18 0ZM8 14V9a4 4 0 0 1 8 0v5"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 11h6"/>',
+    p1: '<path stroke-linecap="round" stroke-linejoin="round" d="M21 12c-2-3.5-5.5-6-9-6S4 8.5 2 12c2 3.5 5.5 6 9 6s7-2.5 9-6Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.5 22 12l-2.5 3.5"/>',
+    p2: '<path stroke-linecap="round" stroke-linejoin="round" d="M20 12c-1.5-3-5-5.5-8-5.5S5 9 3.5 12c1.5 3 5 5.5 8 5.5s6.5-2.5 8-5.5Z"/><circle cx="10" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
+    p3: '<rect x="4" y="7" width="16" height="10" rx="1.5" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M10 7v10"/>',
+    t1: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-1 3-4.5 5-4.5 9a4.5 4.5 0 0 0 9 0c0-4-3.5-6-4.5-9Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.5 12.5A2.5 2.5 0 0 0 12 15"/>',
+    t2: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 12c0-4 3-7 7-7s7 3 7 7c0 3-2 5.5-4.5 6.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 15c1-3.5 5-3.5 6 0"/>',
+    t3: '<path stroke-linecap="round" stroke-linejoin="round" d="M17 8C8 10 5.9 16.17 3.82 22"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.23 8C9.23 8 14 8 18 11c4 3 4 7 4 7"/>',
+    t4: '<ellipse cx="12" cy="12" rx="4" ry="9" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8M8 15h8"/>',
+    t5: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-2 3.5-2 7 0 10 2-3 2-6.5 0-10Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 13c-2 3-5 5-5 8h10c0-3-3-5-5-8Z"/>',
+    t6: '<circle cx="9" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="6" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="14" r="1.5" fill="currentColor" stroke="none"/>',
+    s1: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 16a2 2 0 0 0 4 0"/>',
+    s2: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 14c.5-1 1.5-1.5 3-1.5"/>',
+    s3: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><line stroke-linecap="round" x1="9" y1="17" x2="15" y2="17"/>',
+};

@@ -185,36 +185,39 @@ const IngredientSelectorCard = (item, qty, maxReached) => {
         ? 'border-brand shadow-md'
         : 'border-transparent hover:border-slate-200 hover:shadow-sm';
     return `
-<article class="ingredient-card group bg-white rounded-2xl border-2 overflow-hidden cursor-pointer transition-all duration-200 ${borderCls}" data-id="${item.id}"> <div class="relative overflow-hidden" style="height:128px">
-                <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy">
-                ${sel ? `
-                <div class="absolute inset-0 bg-brand/30 flex items-center justify-center">
-                    <div class="w-10 h-10 bg-brand rounded-full flex items-center justify-center shadow-lg">
-                        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    </div>
-                </div>` : ''}
-                <div class="absolute top-2 left-2 flex gap-1">
-                    ${item.isVegan ? `<span class="bg-emerald-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide shadow-sm">Vegan</span>` : ''}
-                    ${item.isGlutenFree ? `<span class="bg-sky-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wide shadow-sm">GF</span>` : ''}
-                </div>
-                ${qty > 1 ? `<span class="absolute top-2 right-2 bg-brand text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center shadow">×${qty}</span>` : ''}
+<article class="ingredient-card group bg-white rounded-xl sm:rounded-2xl border-2 overflow-hidden cursor-pointer transition-all duration-200 flex flex-col ${borderCls}" data-id="${item.id}"> 
+    <div class="relative overflow-hidden h-[90px] sm:h-[128px] shrink-0">
+        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy">
+        ${sel ? `
+        <div class="absolute inset-0 bg-brand/30 flex items-center justify-center">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-brand rounded-full flex items-center justify-center shadow-lg">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             </div>
-            <div class="p-3">
-                <h4 class="font-bold text-slate-900 text-sm leading-tight mb-1.5">${item.name}</h4>
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-brand font-black text-sm">${item.price > 0 ? `+${item.price.toFixed(2)}€` : 'Inclusa'}</span>
-                    <span class="text-slate-400 text-[11px] font-medium">${item.cals} kcal</span>
-                </div>
-                ${!sel
-            ? `<button type="button" class="w-full bg-slate-900 hover:bg-brand text-white text-xs font-bold py-2 rounded-xl transition-colors duration-150 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed" data-action="add" ${maxReached ? 'disabled' : ''}>${maxReached ? 'Limite raggiunto' : '+ Aggiungi'}</button>`
-            : `<div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl overflow-hidden h-8">
-                            <button type="button" class="w-9 h-full text-slate-600 font-bold hover:bg-red-50 hover:text-red-500 transition-colors" data-action="decrease">−</button>
-                            <span class="text-sm font-bold text-slate-900">${qty}</span>
-                            <button type="button" class="w-9 h-full text-slate-600 font-bold hover:bg-brand hover:text-white transition-colors disabled:opacity-30" data-action="increase" ${maxReached ? 'disabled' : ''}>+</button>
-                       </div>`
-        }
+        </div>` : ''}
+        <div class="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 flex gap-1">
+            ${item.isVegan ? `<span class="bg-emerald-500 text-white text-[8px] sm:text-[9px] font-black px-1 sm:px-1.5 py-0.5 rounded uppercase tracking-wide shadow-sm">Vegan</span>` : ''}
+            ${item.isGlutenFree ? `<span class="bg-sky-500 text-white text-[8px] sm:text-[9px] font-black px-1 sm:px-1.5 py-0.5 rounded uppercase tracking-wide shadow-sm">GF</span>` : ''}
+        </div>
+        ${qty > 1 ? `<span class="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 bg-brand text-white text-[10px] sm:text-xs font-black w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center shadow">×${qty}</span>` : ''}
+    </div>
+    <div class="p-2 sm:p-3 flex flex-col justify-between flex-1">
+        <div>
+            <h4 class="font-bold text-slate-900 text-[11px] sm:text-sm leading-tight mb-1 sm:mb-1.5 line-clamp-1">${item.name}</h4>
+            <div class="flex items-center justify-between mb-2 sm:mb-3">
+                <span class="text-brand font-black text-xs sm:text-sm">${item.price > 0 ? `+${item.price.toFixed(2)}€` : 'Inclusa'}</span>
+                <span class="text-slate-400 text-[9px] sm:text-[11px] font-medium whitespace-nowrap">${item.cals} kcal</span>
             </div>
-        </article>`;
+        </div>
+        ${!sel
+    ? `<button type="button" class="w-full bg-slate-900 hover:bg-brand text-white text-[10px] sm:text-xs font-bold py-1.5 sm:py-2 rounded-lg sm:rounded-xl transition-colors duration-150 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed" data-action="add" ${maxReached ? 'disabled' : ''}>${maxReached ? 'Limite raggiunto' : '+ Aggiungi'}</button>`
+    : `<div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg sm:rounded-xl overflow-hidden h-7 sm:h-8">
+            <button type="button" class="w-7 sm:w-9 h-full text-slate-600 font-bold hover:bg-red-50 hover:text-red-500 transition-colors flex items-center justify-center" data-action="decrease">−</button>
+            <span class="text-xs sm:text-sm font-bold text-slate-900">${qty}</span>
+            <button type="button" class="w-7 sm:w-9 h-full text-slate-600 font-bold hover:bg-brand hover:text-white transition-colors flex items-center justify-center disabled:opacity-30" data-action="increase" ${maxReached ? 'disabled' : ''}>+</button>
+       </div>`
+}
+    </div>
+</article>`;
 };
 
 const FamousPokeCard = (p) => `
@@ -412,23 +415,7 @@ const renderMacroBars = ({ carbs, protein, fat }) => {
 };
 
 /* ── SVG icons (monochrome, stroke-based) per ogni ingrediente ── */
-const INGREDIENT_ICONS = {
-    b1: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18a9 9 0 0 1-18 0ZM8 14V9a4 4 0 0 1 8 0v5"/>',
-    b2: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-1.5 3-2 6-2 9s.5 6 2 9c1.5-3 2-6 2-9s-.5-6-2-9Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M7 8c1.5 1 3 1.5 5 1.5S16 9 17.5 8M7 16c1.5-1 3-1.5 5-1.5s4.5.5 5.5 1.5"/>',
-    b3: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 14h18a9 9 0 0 1-18 0ZM8 14V9a4 4 0 0 1 8 0v5"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 11h6"/>',
-    p1: '<path stroke-linecap="round" stroke-linejoin="round" d="M21 12c-2-3.5-5.5-6-9-6S4 8.5 2 12c2 3.5 5.5 6 9 6s7-2.5 9-6Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.5 22 12l-2.5 3.5"/>',
-    p2: '<path stroke-linecap="round" stroke-linejoin="round" d="M20 12c-1.5-3-5-5.5-8-5.5S5 9 3.5 12c1.5 3 5 5.5 8 5.5s6.5-2.5 8-5.5Z"/><circle cx="10" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
-    p3: '<rect x="4" y="7" width="16" height="10" rx="1.5" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M10 7v10"/>',
-    t1: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-1 3-4.5 5-4.5 9a4.5 4.5 0 0 0 9 0c0-4-3.5-6-4.5-9Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.5 12.5A2.5 2.5 0 0 0 12 15"/>',
-    t2: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 12c0-4 3-7 7-7s7 3 7 7c0 3-2 5.5-4.5 6.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 15c1-3.5 5-3.5 6 0"/>',
-    t3: '<path stroke-linecap="round" stroke-linejoin="round" d="M17 8C8 10 5.9 16.17 3.82 22"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.23 8C9.23 8 14 8 18 11c4 3 4 7 4 7"/>',
-    t4: '<ellipse cx="12" cy="12" rx="4" ry="9" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8M8 15h8"/>',
-    t5: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-2 3.5-2 7 0 10 2-3 2-6.5 0-10Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 13c-2 3-5 5-5 8h10c0-3-3-5-5-8Z"/>',
-    t6: '<circle cx="9" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="6" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="14" r="1.5" fill="currentColor" stroke="none"/>',
-    s1: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 16a2 2 0 0 0 4 0"/>',
-    s2: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 14c.5-1 1.5-1.5 3-1.5"/>',
-    s3: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a7 7 0 0 0 7-7c0-2.5-1.5-4.5-3.5-6S12 3 12 3s-1.5 3.5-3.5 6S5 11.5 5 14a7 7 0 0 0 7 7Z"/><line stroke-linecap="round" x1="9" y1="17" x2="15" y2="17"/>',
-};
+
 
 const TYPE_LABELS = { base: 'Base', protein: 'Proteina', topping: 'Topping', sauce: 'Salsa' };
 
@@ -467,10 +454,10 @@ const renderLivingBowl = () => {
                 <p class="text-[11px] text-zinc-400 leading-tight">${item.data.cals * item.qty} kcal${priceStr}</p>
             </div>
             <button type="button"
-                class="btn-remove-ingredient shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-zinc-300 hover:bg-zinc-950 hover:text-white transition-all duration-150 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
+                class="btn-remove-ingredient shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-zinc-400 hover:bg-red-500 hover:text-white transition-all duration-150 focus:outline-none lg:opacity-0 lg:group-hover:opacity-100"
                 data-remove-id="${item.data.id}"
                 aria-label="Rimuovi ${item.data.name}">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
             </button>
         </div>`;
     }).join('');
